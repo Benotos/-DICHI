@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DICHI — Tokenomics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       VARIABLES — must match index.html
+    ============================================================ */
+    :root {
+      --bg:           #0e0e0e;
+      --surface:      #171717;
+      --card:         #1e1e1e;
+      --border:       #2c2c2c;
+      --border-light: #383838;
+      --text:         #f0f0f0;
+      --muted:        #707070;
+      --accent:       #f5c842;
+      --accent2:      #ff6b35;
+      --green:        #14F195;
+      --purple:       #9945FF;
+      --white:        #ffffff;
+      --radius:       14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    /* ============================================================
+       NAVBAR (identical across all pages)
+    ============================================================ */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 68px;
+      background: rgba(14,14,14,0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem; letter-spacing: 0.1em;
+      color: var(--white); text-decoration: none;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo span {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      color: var(--accent); border: 1px solid rgba(245,200,66,0.4);
+      padding: 3px 8px; border-radius: 20px;
+      letter-spacing: 0.12em; font-weight: 500;
+    }
+    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; padding: 8px 16px; border-radius: 8px;
+      transition: color 0.15s, background 0.15s; letter-spacing: 0.02em;
+    }
+    .nav-links a:hover    { color: var(--text); background: var(--card); }
+    .nav-links a.active   { color: var(--accent); }
+    .nav-cta {
+      padding: 9px 20px; background: var(--accent); color: #0e0e0e !important;
+      border-radius: 8px; font-weight: 700 !important; font-size: 0.82rem !important;
+    }
+    .nav-cta:hover { opacity: 0.85; background: var(--accent) !important; }
+
+    /* ============================================================
+       PAGE HERO
+    ============================================================ */
+    .page-hero {
+      position: relative; z-index: 1;
+      padding: 72px 48px 56px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-end; justify-content: space-between;
+      flex-wrap: wrap; gap: 24px;
+    }
+
+    /* Accent glow blob */
+    .page-hero::before {
+      content: '';
+      position: absolute; top: -60px; left: -80px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,200,66,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 0.68rem;
+      color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .page-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      letter-spacing: 0.04em; line-height: 0.95; color: var(--white);
+    }
+    .page-hero h1 em { font-style: normal; color: var(--accent); }
+
+    .hero-stats {
+      display: flex; gap: 32px; flex-wrap: wrap;
+    }
+    .stat-item { text-align: right; }
+    .stat-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; letter-spacing: 0.05em; color: var(--white);
+    }
+    .stat-val em { font-style: normal; color: var(--green); }
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem; color: var(--muted); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-top: 2px;
+    }
+
+    /* ============================================================
+       LAYOUT CONTAINER
+    ============================================================ */
+    .container {
+      position: relative; z-index: 1;
+      max-width: 1140px; margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+
+    .section-label {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      color: var(--muted); letter-spacing: 0.18em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: 0.05em; color: var(--white); margin-bottom: 40px;
+    }
+    .section-title em { font-style: normal; color: var(--accent); }
+
+    /* ============================================================
+       SUPPLY CARD — big number
+    ============================================================ */
+    .supply-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 32px; margin-bottom: 32px;
+      position: relative; overflow: hidden;
+    }
+    .supply-card::before {
+      content: '';
+      position: absolute; right: -40px; top: -40px;
+      width: 260px; height: 260px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,200,66,0.06) 0%, transparent 70%);
+    }
+    .supply-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      letter-spacing: 0.03em; color: var(--white); line-height: 1;
+    }
+    .supply-number em { font-style: normal; color: var(--accent); }
+    .supply-sub {
+      font-family: 'DM Mono', monospace; font-size: 0.72rem;
+      color: var(--muted); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-top: 8px;
+    }
+    .supply-badges { display: flex; flex-direction: column; gap: 12px; }
+    .supply-badge {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 18px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 10px;
+    }
+    .badge-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .badge-text { font-size: 0.82rem; color: var(--text); font-weight: 500; }
+    .badge-text span { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); display: block; margin-top: 1px; }
+
+    /* ============================================================
+       DONUT CHART (CSS only)
+    ============================================================ */
+    .tokenomics-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      align-items: start;
+    }
+
+    .donut-wrap {
+      display: flex; flex-direction: column; align-items: center; gap: 28px;
+    }
+
+    .donut-svg { width: 240px; height: 240px; }
+
+    .donut-legend { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+    .legend-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    }
+    .legend-left { display: flex; align-items: center; gap: 10px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .legend-name { font-size: 0.85rem; font-weight: 500; }
+    .legend-pct {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem; letter-spacing: 0.05em; color: var(--white);
+    }
+
+    /* ============================================================
+       INFO CARDS
+    ============================================================ */
+    .info-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .info-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+      transition: border-color 0.2s;
+    }
+    .info-card:hover { border-color: var(--border-light); }
+
+    .info-card-icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      background: var(--surface); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; margin-bottom: 14px;
+    }
+    .info-card-title {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      color: var(--muted); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .info-card-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem; letter-spacing: 0.04em; color: var(--white);
+    }
+    .info-card-val em { font-style: normal; color: var(--accent); }
+    .info-card-desc { font-size: 0.78rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+    /* ============================================================
+       HOW TO BUY
+    ============================================================ */
+    .htb-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 40px; }
+
+    .step-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px 20px;
+      position: relative; transition: border-color 0.2s, transform 0.2s;
+    }
+    .step-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+    /* connector line between steps */
+    .step-card:not(:last-child)::after {
+      content: '→';
+      position: absolute; right: -14px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--border-light); font-size: 1.1rem; z-index: 2;
+    }
+
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem; letter-spacing: 0.05em;
+      color: rgba(245,200,66,0.12); line-height: 1;
+      margin-bottom: 8px;
+    }
+    .step-title {
+      font-size: 0.9rem; font-weight: 700; color: var(--text);
+      margin-bottom: 8px;
+    }
+    .step-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
+    .step-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      margin-top: 12px; font-size: 0.75rem; font-weight: 600;
+      color: var(--accent); text-decoration: none;
+      font-family: 'DM Mono', monospace; letter-spacing: 0.05em;
+    }
+    .step-link:hover { text-decoration: underline; }
+
+    /* Contract address box */
+    .ca-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .ca-label {
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .ca-addr {
+      font-family: 'DM Mono', monospace; font-size: 0.88rem;
+      color: var(--text); letter-spacing: 0.04em; word-break: break-all;
+    }
+    .ca-addr em { color: var(--accent); font-style: normal; }
+    .btn-copy {
+      display: flex; align-items: center; gap: 7px;
+      padding: 10px 18px; background: var(--surface);
+      border: 1px solid var(--border-light); border-radius: 9px;
+      color: var(--text); font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem; font-weight: 600; cursor: pointer;
+      white-space: nowrap; transition: all 0.15s;
+    }
+    .btn-copy:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-copy.copied { border-color: var(--green); color: var(--green); }
+
+    /* Buy buttons row */
+    .buy-row {
+      display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+      font-weight: 700; cursor: pointer; text-decoration: none;
+      transition: all 0.18s; letter-spacing: 0.02em; border: none;
+    }
+    .btn-primary { background: var(--accent); color: #0e0e0e; }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--muted);
+      border: 1px solid var(--border-light);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ============================================================
+       DISCLAIMER
+    ============================================================ */
+    .disclaimer {
+      padding: 32px 40px;
+      background: var(--surface); border-top: 1px solid var(--border);
+    }
+    .disclaimer p {
+      font-size: 0.72rem; color: var(--muted);
+      line-height: 1.7; max-width: 900px; margin: 0 auto;
+      text-align: center; font-family: 'DM Mono', monospace;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 36px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.08em; color: var(--white); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 0.8rem; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-size: 0.72rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      .nav-links a { font-size: 0.78rem; padding: 7px 10px; }
+      .page-hero { padding: 48px 24px 40px; }
+      .container { padding: 0 20px; }
+      .tokenomics-grid { grid-template-columns: 1fr; }
+      .htb-steps { grid-template-columns: 1fr 1fr; }
+      .info-cards { grid-template-columns: 1fr 1fr; }
+      .step-card:not(:last-child)::after { display: none; }
+      footer { padding: 24px 20px; }
+    }
+    @media (max-width: 560px) {
+      .htb-steps { grid-template-columns: 1fr; }
+      .info-cards { grid-template-columns: 1fr; }
+      .supply-card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVBAR
+  ============================================================ -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      DICHI <span>ON SOLANA</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tokenomics.html" class="active">Tokenomics</a></li>
+      <li><a href="whitepaper.html">Whitepaper</a></li>
+      <li><a href="roadmap.html">Roadmap</a></li>
+      <li><a href="#how-to-buy" class="nav-cta">Buy $DICHI</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       PAGE HERO
+  ============================================================ -->
+  <div class="page-hero">
+    <div>
+      <div class="page-eyebrow">// Token Economics</div>
+      <h1>Token<em>omics</em></h1>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-val"><em>0%</em></div>
+        <div class="stat-label">Buy Tax</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val"><em>0%</em></div>
+        <div class="stat-label">Sell Tax</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">1B</div>
+        <div class="stat-label">Total Supply</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       TOKENOMICS SECTION
+  ============================================================ -->
+  <div class="container">
+
+    <section id="tokenomics">
+      <div class="section-label">// Supply Breakdown</div>
+      <div class="section-title">The <em>Numbers</em></div>
+
+      <!-- Big supply card -->
+      <div class="supply-card">
+        <div>
+          <div class="supply-number"><em>1,000,000,000</em></div>
+          <div class="supply-sub">Total $DICHI Supply</div>
+        </div>
+        <div class="supply-badges">
+          <div class="supply-badge">
+            <div class="badge-dot" style="background:#14F195"></div>
+            <div class="badge-text">
+              LP Burned 🔥
+              <span>Liquidity locked forever — no rug possible</span>
+            </div>
+          </div>
+          <div class="supply-badge">
+            <div class="badge-dot" style="background:#f5c842"></div>
+            <div class="badge-text">
+              0% Tax
+              <span>No buy tax, no sell tax. Ever.</span>
+            </div>
+          </div>
+          <div class="supply-badge">
+            <div class="badge-dot" style="background:#9945FF"></div>
+            <div class="badge-text">
+              Renounced Contract
+              <span>No admin keys. Community owned.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Donut + legend -->
+      <div class="tokenomics-grid">
+        <div class="donut-wrap">
+          <!-- SVG Donut Chart -->
+          <svg class="donut-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#1e1e1e" stroke-width="36"/>
+
+            <!-- Community & Liquidity: 50% -->
+            <circle cx="100" cy="100" r="70" fill="none"
+              stroke="#f5c842" stroke-width="36"
+              stroke-dasharray="219.9 219.9"
+              stroke-dashoffset="0"
+              transform="rotate(-90 100 100)"/>
+
+            <!-- CEX & Partnerships: 20% -->
+            <circle cx="100" cy="100" r="70" fill="none"
+              stroke="#14F195" stroke-width="36"
+              stroke-dasharray="87.96 351.84"
+              stroke-dashoffset="-219.9"
+              transform="rotate(-90 100 100)"/>
+
+            <!-- Team (Locked): 15% -->
+            <circle cx="100" cy="100" r="70" fill="none"
+              stroke="#9945FF" stroke-width="36"
+              stroke-dasharray="65.97 373.83"
+              stroke-dashoffset="-307.86"
+              transform="rotate(-90 100 100)"/>
+
+            <!-- Marketing: 10% -->
+            <circle cx="100" cy="100" r="70" fill="none"
+              stroke="#ff6b35" stroke-width="36"
+              stroke-dasharray="43.98 395.82"
+              stroke-dashoffset="-373.83"
+              transform="rotate(-90 100 100)"/>
+
+            <!-- Airdrop: 5% -->
+            <circle cx="100" cy="100" r="70" fill="none"
+              stroke="#ff6eb4" stroke-width="36"
+              stroke-dasharray="21.99 417.81"
+              stroke-dashoffset="-417.81"
+              transform="rotate(-90 100 100)"/>
+
+            <!-- Center label -->
+            <text x="100" y="95" text-anchor="middle"
+              font-family="'Bebas Neue', sans-serif"
+              font-size="22" fill="#f0f0f0" letter-spacing="1">$DICHI</text>
+            <text x="100" y="114" text-anchor="middle"
+              font-family="'DM Mono', monospace"
+              font-size="9" fill="#707070" letter-spacing="1">1B SUPPLY</text>
+          </svg>
+
+          <!-- Legend -->
+          <div class="donut-legend">
+            <div class="legend-row">
+              <div class="legend-left">
+                <div class="legend-dot" style="background:#f5c842"></div>
+                <div class="legend-name">Community &amp; Liquidity</div>
+              </div>
+              <div class="legend-pct">50%</div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-left">
+                <div class="legend-dot" style="background:#14F195"></div>
+                <div class="legend-name">CEX &amp; Partnerships</div>
+              </div>
+              <div class="legend-pct">20%</div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-left">
+                <div class="legend-dot" style="background:#9945FF"></div>
+                <div class="legend-name">Team (Locked 12mo)</div>
+              </div>
+              <div class="legend-pct">15%</div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-left">
+                <div class="legend-dot" style="background:#ff6b35"></div>
+                <div class="legend-name">Marketing</div>
+              </div>
+              <div class="legend-pct">10%</div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-left">
+                <div class="legend-dot" style="background:#ff6eb4"></div>
+                <div class="legend-name">Airdrop</div>
+              </div>
+              <div class="legend-pct">5%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info cards -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div class="info-cards">
+            <div class="info-card">
+              <div class="info-card-icon">🔥</div>
+              <div class="info-card-title">LP Status</div>
+              <div class="info-card-val"><em>Burned</em></div>
+              <div class="info-card-desc">All LP tokens sent to a dead wallet. Liquidity is permanent.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">🧾</div>
+              <div class="info-card-title">Buy / Sell Tax</div>
+              <div class="info-card-val"><em>0 / 0</em></div>
+              <div class="info-card-desc">Zero tax on every transaction. Buy and sell freely.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">🔐</div>
+              <div class="info-card-title">Contract</div>
+              <div class="info-card-val"><em>Renounced</em></div>
+              <div class="info-card-desc">Owner keys burned. No one can change the contract.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">⬡</div>
+              <div class="info-card-title">Network</div>
+              <div class="info-card-val">Solana</div>
+              <div class="info-card-desc">Blazing fast, near-zero fees. Built for degens.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">🐶</div>
+              <div class="info-card-title">Ticker</div>
+              <div class="info-card-val"><em>$DICHI</em></div>
+              <div class="info-card-desc">The good boy of Solana. Community first, always.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">💎</div>
+              <div class="info-card-title">Decimals</div>
+              <div class="info-card-val">6</div>
+              <div class="info-card-desc">Standard Solana SPL token decimals.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         HOW TO BUY
+    ============================================================ -->
+    <section id="how-to-buy">
+      <div class="section-label">// Step by Step</div>
+      <div class="section-title">How to <em>Buy</em> $DICHI</div>
+
+      <div class="htb-steps">
+
+        <!-- Step 1 -->
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-title">Get a Solana Wallet</div>
+          <div class="step-desc">Download Phantom or Solflare. Create a new wallet and save your seed phrase somewhere safe — never share it with anyone.</div>
+          <a href="https://phantom.app" target="_blank" rel="noopener" class="step-link">
+            Phantom.app ↗
+          </a>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-title">Buy SOL</div>
+          <div class="step-desc">Purchase SOL from any major exchange like Coinbase, Binance, or Kraken. Transfer it to your Phantom wallet address.</div>
+          <a href="https://coinbase.com" target="_blank" rel="noopener" class="step-link">
+            Coinbase ↗
+          </a>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-title">Go to Raydium or Jupiter</div>
+          <div class="step-desc">Visit Jupiter or Raydium — the top Solana DEXs. Connect your Phantom wallet by clicking "Connect Wallet."</div>
+          <a href="https://jup.ag" target="_blank" rel="noopener" class="step-link">
+            Jupiter ↗
+          </a>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-card">
+          <div class="step-num">04</div>
+          <div class="step-title">Swap SOL for $DICHI</div>
+          <div class="step-desc">Paste the $DICHI contract address, set slippage to 1–3%, and hit Swap. Welcome to the pack. 🐶</div>
+          <a href="#ca" class="step-link">
+            Copy CA ↗
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Contract Address -->
+      <div id="ca" class="ca-box">
+        <div>
+          <div class="ca-label">Contract Address (CA)</div>
+          <!-- Replace this with the real CA when ready -->
+          <div class="ca-addr" id="caText">
+            <em>COMING SOON</em> — Paste your contract address here
+          </div>
+        </div>
+        <button class="btn-copy" id="copyBtn" onclick="copyCA()">
+          📋 Copy CA
+        </button>
+      </div>
+
+      <!-- Buy buttons -->
+      <div class="buy-row">
+        <a href="https://jup.ag" target="_blank" rel="noopener" class="btn btn-primary">
+          🚀 Buy on Jupiter
+        </a>
+        <a href="https://raydium.io/swap" target="_blank" rel="noopener" class="btn btn-outline">
+          ⚡ Buy on Raydium
+        </a>
+        <a href="https://dexscreener.com" target="_blank" rel="noopener" class="btn btn-outline">
+          📈 Chart on Dexscreener
+        </a>
+      </div>
+
+    </section>
+
+  </div><!-- /container -->
+
+  <!-- ============================================================
+       DISCLAIMER
+  ============================================================ -->
+  <div class="disclaimer">
+    <p>
+      $DICHI is a meme coin with no intrinsic value or financial return expectation.
+      It is not an investment and carries significant risk. Always do your own research.
+      This is not financial advice. Crypto is volatile — never invest more than you can afford to lose.
+    </p>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="footer-logo">DICHI</div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tokenomics.html">Tokenomics</a></li>
+      <li><a href="whitepaper.html">Whitepaper</a></li>
+      <li><a href="roadmap.html">Roadmap</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 DICHI · Built on Solana</div>
+  </footer>
+
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    // Copy contract address
+    function copyCA() {
+      // Replace this string with your real CA when ready
+      const ca = 'COMING SOON — replace with your contract address';
+      navigator.clipboard.writeText(ca).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '📋 Copy CA';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>

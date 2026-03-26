@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DICHI — Whitepaper</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:           #0e0e0e;
+      --surface:      #171717;
+      --card:         #1e1e1e;
+      --border:       #2c2c2c;
+      --border-light: #383838;
+      --text:         #f0f0f0;
+      --muted:        #707070;
+      --accent:       #f5c842;
+      --accent2:      #ff6b35;
+      --green:        #14F195;
+      --purple:       #9945FF;
+      --white:        #ffffff;
+      --radius:       14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 68px;
+      background: rgba(14,14,14,0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem; letter-spacing: 0.1em;
+      color: var(--white); text-decoration: none;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo span {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      color: var(--accent); border: 1px solid rgba(245,200,66,0.4);
+      padding: 3px 8px; border-radius: 20px;
+      letter-spacing: 0.12em; font-weight: 500;
+    }
+    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; padding: 8px 16px; border-radius: 8px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-links a:hover  { color: var(--text); background: var(--card); }
+    .nav-links a.active { color: var(--accent); }
+    .nav-cta {
+      padding: 9px 20px; background: var(--accent); color: #0e0e0e !important;
+      border-radius: 8px; font-weight: 700 !important; font-size: 0.82rem !important;
+    }
+    .nav-cta:hover { opacity: 0.85; background: var(--accent) !important; }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      position: relative; z-index: 1;
+      padding: 72px 48px 56px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-end; justify-content: space-between;
+      flex-wrap: wrap; gap: 24px;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; top: -60px; right: -80px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(153,69,255,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .page-eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 0.68rem;
+      color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .page-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      letter-spacing: 0.04em; line-height: 0.95; color: var(--white);
+    }
+    .page-hero h1 em { font-style: normal; color: var(--accent); }
+
+    .hero-meta {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+    }
+    .meta-pill {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      color: var(--muted); border: 1px solid var(--border);
+      padding: 5px 12px; border-radius: 20px; letter-spacing: 0.1em;
+    }
+    .meta-pill em { font-style: normal; color: var(--accent); }
+
+    /* ── LAYOUT ── */
+    .wp-layout {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      max-width: 1140px; margin: 0 auto;
+      padding: 0 40px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ── SIDEBAR / TOC ── */
+    .wp-toc {
+      position: sticky; top: 88px;
+      padding: 24px 0;
+    }
+    .toc-label {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase;
+      padding-bottom: 12px; border-bottom: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+    .toc-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px; border-radius: 8px;
+      font-size: 0.8rem; color: var(--muted);
+      text-decoration: none; transition: all 0.14s;
+      margin-bottom: 2px;
+    }
+    .toc-link:hover { color: var(--text); background: var(--card); }
+    .toc-link.active { color: var(--accent); background: rgba(245,200,66,0.06); }
+    .toc-num {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      color: var(--border-light); min-width: 18px;
+    }
+
+    .toc-divider {
+      border: none; border-top: 1px solid var(--border);
+      margin: 14px 0;
+    }
+
+    .btn-dl-wp {
+      display: flex; align-items: center; gap: 8px;
+      width: 100%; padding: 10px 14px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 9px; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: all 0.15s;
+      justify-content: center;
+    }
+    .btn-dl-wp:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── CONTENT ── */
+    .wp-content {
+      padding: 56px 0 80px;
+    }
+
+    .wp-section {
+      margin-bottom: 64px;
+      scroll-margin-top: 100px;
+    }
+
+    .wp-section-num {
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      color: var(--muted); letter-spacing: 0.16em;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .wp-section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      letter-spacing: 0.04em; color: var(--white);
+      margin-bottom: 20px; line-height: 1;
+    }
+    .wp-section-title em { font-style: normal; color: var(--accent); }
+
+    /* divider under section title */
+    .wp-section-title + .wp-divider {
+      width: 40px; height: 2px;
+      background: var(--accent); margin-bottom: 24px;
+    }
+    .wp-divider { width: 40px; height: 2px; background: var(--accent); margin-bottom: 24px; }
+
+    .wp-body {
+      font-size: 0.95rem; line-height: 1.8;
+      color: #c0c0cc;
+    }
+    .wp-body p { margin-bottom: 16px; }
+    .wp-body p:last-child { margin-bottom: 0; }
+    .wp-body strong { color: var(--text); font-weight: 600; }
+    .wp-body em { color: var(--accent); font-style: normal; }
+
+    /* Highlight block */
+    .wp-highlight {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 18px 22px;
+      margin: 24px 0;
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* Fact grid */
+    .fact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .fact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 16px;
+    }
+    .fact-icon { font-size: 1.3rem; margin-bottom: 8px; }
+    .fact-title {
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      color: var(--muted); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 5px;
+    }
+    .fact-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem; letter-spacing: 0.04em; color: var(--white);
+    }
+    .fact-val em { font-style: normal; color: var(--accent); }
+    .fact-desc { font-size: 0.73rem; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+
+    /* Pillar cards */
+    .pillar-list { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
+    .pillar {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px 20px;
+      transition: border-color 0.15s;
+    }
+    .pillar:hover { border-color: var(--border-light); }
+    .pillar-icon {
+      width: 38px; height: 38px; border-radius: 9px;
+      background: var(--surface); display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    
+    .pillar-title { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+    .pillar-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+    /* Token table */
+    .wp-table {
+      width: 100%; border-collapse: collapse;
+      margin: 24px 0; font-size: 0.85rem;
+    }
+    .wp-table th {
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase;
+      text-align: left; padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .wp-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    .wp-table tr:last-child td { border-bottom: none; }
+    .wp-table tr:hover td { background: var(--surface); }
+    .wp-table td.accent { color: var(--accent); font-weight: 600; font-family: 'DM Mono', monospace; }
+    .wp-table td.green  { color: var(--green);  font-weight: 600; }
+
+    /* Risk list */
+    .risk-list { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+    .risk-item {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 14px 16px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .risk-badge {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      padding: 3px 8px; border-radius: 6px; font-weight: 700;
+      flex-shrink: 0; letter-spacing: 0.08em; margin-top: 1px;
+    }
+    .risk-high   { background: rgba(255,107,53,0.15); color: var(--accent2); }
+    .risk-medium { background: rgba(245,200,66,0.12); color: var(--accent); }
+    .risk-low    { background: rgba(20,241,149,0.1);  color: var(--green); }
+    .risk-text { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    .risk-text strong { color: var(--text); }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 36px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.08em; color: var(--white); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 0.8rem; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-size: 0.72rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      nav { padding: 0 20px; }
+      .page-hero { padding: 48px 24px 40px; }
+      .wp-layout { grid-template-columns: 1fr; padding: 0 20px; gap: 0; }
+      .wp-toc { display: none; }
+      .fact-grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 24px 20px; }
+    }
+    @media (max-width: 480px) {
+      .fact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">DICHI <span>ON SOLANA</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tokenomics.html">Tokenomics</a></li>
+      <li><a href="whitepaper.html" class="active">Whitepaper</a></li>
+      <li><a href="roadmap.html">Roadmap</a></li>
+      <li><a href="tokenomics.html#how-to-buy" class="nav-cta">Buy $DICHI</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div>
+      <div class="page-eyebrow">// Official Document</div>
+      <h1>White<em>paper</em></h1>
+    </div>
+    <div class="hero-meta">
+      <div class="meta-pill">Version <em>1.0</em></div>
+      <div class="meta-pill">Published <em>2025</em></div>
+      <div class="meta-pill">Network: <em>Solana</em></div>
+    </div>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="wp-layout">
+
+    <!-- SIDEBAR TOC -->
+    <aside class="wp-toc">
+      <div class="toc-label">// Contents</div>
+      <a class="toc-link active" href="#abstract">
+        <span class="toc-num">01</span> Abstract
+      </a>
+      <a class="toc-link" href="#introduction">
+        <span class="toc-num">02</span> Introduction
+      </a>
+      <a class="toc-link" href="#vision">
+        <span class="toc-num">03</span> Vision & Mission
+      </a>
+      <a class="toc-link" href="#technology">
+        <span class="toc-num">04</span> Technology
+      </a>
+      <a class="toc-link" href="#tokenomics">
+        <span class="toc-num">05</span> Tokenomics
+      </a>
+      <a class="toc-link" href="#community">
+        <span class="toc-num">06</span> Community
+      </a>
+      <a class="toc-link" href="#pfp">
+        <span class="toc-num">07</span> PFP Generator
+      </a>
+      <a class="toc-link" href="#risks">
+        <span class="toc-num">08</span> Risks
+      </a>
+      <a class="toc-link" href="#disclaimer">
+        <span class="toc-num">09</span> Disclaimer
+      </a>
+      <hr class="toc-divider" />
+      <a class="btn-dl-wp" href="#" onclick="window.print(); return false;">
+        🖨 Print / Save PDF
+      </a>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="wp-content">
+
+      <!-- 01 ABSTRACT -->
+      <div class="wp-section" id="abstract">
+        <div class="wp-section-num">// 01</div>
+        <div class="wp-section-title">Abstract</div>
+        <div class="wp-divider"></div>
+        <div class="wp-body">
+          <p>
+            <strong>DICHI ($DICHI)</strong> is a community-driven meme token built on the
+            <em>Solana blockchain</em>. Inspired by the cultural phenomenon of Michi —
+            the internet's most recognisable cat — DICHI introduces the counterpart:
+            a dog with personality, culture, and a community behind it.
+          </p>
+          <p>
+            This document outlines the vision, technical foundation, token economics,
+            and community philosophy of the DICHI project. It is intended for informational
+            purposes only and does not constitute financial advice.
+          </p>
+          <div class="wp-highlight">
+            "DICHI is not just a token. It is an identity. A PFP. A movement. The good boy of Solana."
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 INTRODUCTION -->
+      <div class="wp-section" id="introduction">
+        <div class="wp-section-num">// 02</div>
+        <div class="wp-section-title">Intro<em>duction</em></div>
+        <div class="wp-divider"></div>
+        <div class="wp-body">
+          <p>
+            The memecoin market has become one of the most significant cultural forces in crypto.
+            Tokens like Dogecoin, Shiba Inu, and more recently <strong>Michi ($MICHI)</strong>
+            on Solana have demonstrated that community, identity, and culture can generate
+            real, sustained value.
+          </p>
+          <p>
+            Michi, a cat-themed memecoin on Solana, reached a market cap of nearly
+            <strong>$250 million</strong> at its peak in 2024 — proving the appetite
+            for personality-driven tokens is enormous.
+          </p>
+          <p>
+            DICHI enters as the natural complement. Where Michi is the cat,
+            <em>DICHI is the dog</em>. A token built not on hype alone, but on
+            community ownership, zero-tax trading, and a native PFP generator
+            that gives every holder a unique digital identity.
+          </p>
+
+          <div class="fact-grid">
+            <div class="fact-card">
+              <div class="fact-icon">⬡</div>
+              <div class="fact-title">Blockchain</div>
+              <div class="fact-val">Solana</div>
+              <div class="fact-desc">Fast, cheap, built for culture</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-icon">🐶</div>
+              <div class="fact-title">Ticker</div>
+              <div class="fact-val"><em>$DICHI</em></div>
+              <div class="fact-desc">The good boy of Solana</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-icon">🏦</div>
+              <div class="fact-title">Supply</div>
+              <div class="fact-val">1<em>B</em></div>
+              <div class="fact-desc">1,000,000,000 total tokens</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 VISION & MISSION -->
+      <div class="wp-section" id="vision">
+        <div class="wp-section-num">// 03</div>
+        <div class="wp-section-title">Vision &amp; <em>Mission</em></div>
+        <div class="wp-divider"></div>
+        <div class="wp-body">
+          <p>
+            DICHI's vision is to become the most recognisable dog-themed identity token
+            on Solana — a token where holding means belonging, and your wallet address
+            comes with a face.
+          </p>
+          <p>
+            Our mission is threefold: build a genuine community, provide real cultural utility
+            through the PFP generator, and maintain a completely transparent,
+            community-owned token structure.
+          </p>
+
+          <div class="pillar-list">
+            <div class="pillar">
+              <div class="pillar-icon">🐾</div>
+              <div class="pillar-body">
+                <div class="pillar-title">Community First</div>
+                <div class="pillar-desc">Every decision — from marketing spend to exchange listings — is driven by the community. No shadowy team, no hidden agendas.</div>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">🎨</div>
+              <div class="pillar-body">
+                <div class="pillar-title">Cultural Utility</div>
+                <div class="pillar-desc">The DICHI PFP Generator gives holders a native tool to create and own their identity — a layer of utility unique in the memecoin space.</div>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">🔐</div>
+              <div class="pillar-body">
+                <div class="pillar-title">Total Transparency</div>
+                <div class="pillar-desc">Contract renounced. LP burned. No taxes. No mint function. What you see is what you get — forever.</div>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">🚀</div>
+              <div class="pillar-body">
+                <div class="pillar-title">Long-Term Thinking</div>
+                <div class="pillar-desc">Team tokens are locked for 12 months. We are building for the long run, not a quick pump-and-dump.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 TECHNOLOGY -->
+      <div class="wp-section" id="technology">
+        <div class="wp-section-num">// 04</div>
+        <div class="wp-section-title">Tech<em>nology</em></div>
+        <div class="wp-divider"></div>
+        <div class="wp-body">
+          <p>
+            DICHI is deployed as an <strong>SPL Token</strong> on the Solana blockchain —
+            the same token standard used by every major Solana project.
+          </p>
+          <p>
+            Solana was chosen for its unmatched combination of speed, cost efficiency,
+            and cultural momentum in the memecoin ecosystem.
+          </p>
+
+          <div class="fact-grid">
+            <div class="fact-card">
+              <div class="fact-icon">⚡</div>
+              <div class="fact-title">TPS</div>
+              <div class="fact-val"><em>65,000</em></div>
+              <div class="fact-desc">Transactions per second on Solana</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-icon">💸</div>
+              <div class="fact-title">Avg Fee</div>
+              <div class="fact-val"><em>$0.00025</em></div>
+              <div class="fact-desc">Per transaction on Solana</div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-icon">🛡</div>
+              <div class="fact-title">Standard</div>
+              <div class="fact-val">SPL</div>
+              <div class="fact-desc">Solana Program Library token</div>
+            </div>
+          </div>
+
+          <p>
+            The DICHI smart contract has been configured with the following
+            security properties from launch:
+          </p>
+
+          <div class="pillar-list">
+            <div class="pillar">
+              <div class="pillar-icon">🔥</div>
+              <div class="pillar-body">
+                <div class="pillar-title">LP Tokens Burned</div>
+                <div class="pillar-desc">All liquidity provider tokens have been sent to a dead wallet, making it impossible to remove liquidity or rug-pull holders.</div>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">🔑</div>
+              <div class="pillar-body">
+                <div class="pillar-title">Ownership Renounced</div>
+                <div class="pillar-desc">The contract owner address has been set to null. No one can pause trading, change fees, or alter contract behaviour.</div>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">🚫</div>
+              <div class="pillar-body">
+                <div class="pillar-title">No Mint Authority</div>
+                <div class="pillar-desc">Mint authority has been permanently revoked. The total supply is fixed at 1,000,000,000 $DICHI forever.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05 TOKENOMICS -->
+      <div class="wp-section" id="tokenomics">
+        <div class="wp-section-num">// 05</div>
+        <div class="wp-section-title">Token<em>omics</em></div>
+        <div class="wp-divider"></div>
+        <div class="wp-body">
+          <p>
+            DICHI's tokenomics are designed around one principle: <em>fairness</em>.
+            The majority of supply goes directly to the community and liquidity pool,
+            with team allocation strictly time-locked.
+          </p>
+
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th>Allocation</th>
+                <th>Percentage</th>
+                <th>Tokens</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Community &amp; Liquidity</td>
+                <td class="accent">50%</td>
+                <td>500,000,000</td>
+                <td class="green">🔥 LP Burned</td>
+              </tr>
+              <tr>
+                <td>CEX &amp; Partnerships</td>
+                <td class="accent">20%</td>
+                <td>200,000,000</td>
+                <td>Held in multi-sig</td>
+              </tr>
+              <tr>
+                <td>Team</td>
+                <td class="accent">15%</td>
+                <td>150,000,000</td>
+                <td class="green">🔐 Locked 12 months</td>
+              </tr>
+              <tr>
+                <td>Marketing</td>
+                <td class="accent">10%</td>
+                <td>100,000,000</td>
+                <td>Community-governed</td>
+              </tr>
+              <tr>
+                <td>Airdrop</td>
+                <td class="accent">5%</td>
+                <td>50,000,000</td>
+                <td>Early supporters</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="wp-highlight">
+            <strong>0% buy tax. 0% sell tax.</strong> No transaction fees, ever.
+            DICHI was built for frictionless trading — the way memecoins should be.
+          </div>
+        </div>
+      </div>
+
+      <!-- 06 COMMUNITY -->
+      <div class="wp-section" id="community">
+        <div class="wp-section-num">// 06</div>
+        <div class="wp-section-title">The <em>Community</em></div>
+        <div class="wp-divider"></div>
+        <div class="wp-body">
+          <p>
+            DICHI lives and dies by its community. In the memecoin space,
+            the strength of a community is the product. There is no roadmap
+            without people to execute it. There is no price without holders
+            who believe.
+          </p>
+          <p>
+            The DICHI community is built on a few core values:
+          </p>
+
+          <div class="pillar-list">
+            <div class="pillar">
+              <div class="pillar-icon">🤝</div>
+              <div class="pillar-body">
+                <div class="pillar-title">Inclusion Over Exclusion</div>
+                <div class="pillar-desc">DICHI welcomes everyone — from crypto veterans to first-time buyers. We do not gatekeep the pack.</div>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">📢</div>
+              <div class="pillar-body">
+                <div class="pillar-title">Organic Growth</div>
+                <div class="pillar-desc">No paid bots, no fake volume. DICHI grows through genuine engagement, memes, and holder conviction.</div>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">🎯</div>
+              <div class="pillar-body">
+                <div class="pillar-title">Meme as Culture</div>
+                <div class="pillar-desc">Memes are the language of the internet. DICHI speaks this language natively — the PFP generator is the first step in building a shared visual identity.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 07 PFP GENERATOR -->
+      <div class="wp-section" id="pfp">
+        <div class="wp-section-num">// 07</div>
+        <div class="wp-section-title">PFP <em>Generator</em></div>
+        <div class="wp-divider"></div>
+        <div class="wp-body">
+          <p>
+            The DICHI PFP Generator is the project's flagship cultural utility.
+            It allows any user — holder or not — to upload a photo of their dog
+            and layer curated traits on top to create a unique profile picture.
+          </p>
+          <p>
+            Traits are organised into six categories, each with multiple options
+            designed to reflect the DICHI community's aesthetic:
+          </p>
+
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Options</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>👀 Eyes</td><td>Laser eyes, shades, hearts, stars, X eyes</td><td class="accent">6</td></tr>
+              <tr><td>🧢 Hat / Headwear</td><td>Cap, crown, top hat, halo, beanie, cowboy, party</td><td class="accent">7</td></tr>
+              <tr><td>👕 Clothing</td><td>Hoodie, suit, T-shirt, jersey, robe, chain</td><td class="accent">6</td></tr>
+              <tr><td>😶 Mouth</td><td>Smile, tongue, grin, cigarette, dollar sign</td><td class="accent">5</td></tr>
+              <tr><td>✨ Accessories</td><td>Gold chain, monocle, earring, bow tie, pipe, wings</td><td class="accent">6</td></tr>
+              <tr><td>🎨 Background</td><td>8 solid colour options</td><td class="accent">8</td></tr>
+            </tbody>
+          </table>
+
+          <p>
+            Generated PFPs are exported as <strong>PNG files</strong> at 400×400px,
+            circle-cropped and ready to use on Twitter/X, Telegram, or any other platform.
+            No wallet connection required — the tool is free for everyone.
+          </p>
+          <div class="wp-highlight">
+            Future versions of the PFP generator will include real photographic trait layers
+            once the full asset library is complete. Trait PNG assets will be community-voted.
+          </div>
+        </div>
+      </div>
+
+      <!-- 08 RISKS -->
+      <div class="wp-section" id="risks">
+        <div class="wp-section-num">// 08</div>
+        <div class="wp-section-title">Risk <em>Factors</em></div>
+        <div class="wp-divider"></div>
+        <div class="wp-body">
+          <p>
+            DICHI is a meme token. Like all meme tokens, it carries significant risks.
+            The following risk factors should be carefully considered before purchasing.
+          </p>
+
+          <div class="risk-list">
+            <div class="risk-item">
+              <span class="risk-badge risk-high">HIGH</span>
+              <div class="risk-text">
+                <strong>Market Volatility</strong> — Memecoin prices are highly volatile and can decline
+                by 90%+ in short time periods. DICHI is not immune to this.
+              </div>
+            </div>
+            <div class="risk-item">
+              <span class="risk-badge risk-high">HIGH</span>
+              <div class="risk-text">
+                <strong>No Intrinsic Value</strong> — $DICHI has no guaranteed utility, revenue,
+                or backing. Its value is entirely driven by community sentiment and speculation.
+              </div>
+            </div>
+            <div class="risk-item">
+              <span class="risk-badge risk-medium">MEDIUM</span>
+              <div class="risk-text">
+                <strong>Regulatory Risk</strong> — Cryptocurrency regulation is evolving globally.
+                Future laws may affect the ability to trade or hold $DICHI in certain jurisdictions.
+              </div>
+            </div>
+            <div class="risk-item">
+              <span class="risk-badge risk-medium">MEDIUM</span>
+              <div class="risk-text">
+                <strong>Liquidity Risk</strong> — While LP is burned, the depth of liquidity
+                may fluctuate. Large sell orders may result in significant price impact.
+              </div>
+            </div>
+            <div class="risk-item">
+              <span class="risk-badge risk-low">LOW</span>
+              <div class="risk-text">
+                <strong>Smart Contract Risk</strong> — The contract is renounced and cannot be
+                altered. However, undiscovered bugs in the underlying Solana runtime
+                remain a theoretical risk.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 09 DISCLAIMER -->
+      <div class="wp-section" id="disclaimer">
+        <div class="wp-section-num">// 09</div>
+        <div class="wp-section-title">Dis<em>claimer</em></div>
+        <div class="wp-divider"></div>
+        <div class="wp-body">
+          <p>
+            This whitepaper is provided for informational purposes only and does not constitute
+            financial, investment, legal, or tax advice of any kind.
+          </p>
+          <p>
+            Nothing in this document should be construed as a solicitation or offer to buy or sell
+            any security or financial instrument. <strong>$DICHI is a meme token with no expectation
+            of profit or financial return.</strong>
+          </p>
+          <p>
+            Purchasing $DICHI involves significant risk, including the possible loss of all funds.
+            Never invest more than you can afford to lose entirely. Always conduct your own research
+            and consult a licensed financial advisor before making any investment decisions.
+          </p>
+          <div class="wp-highlight">
+            DICHI is a dog. Not a financial advisor. 🐶
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div><!-- /wp-layout -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">DICHI</div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tokenomics.html">Tokenomics</a></li>
+      <li><a href="whitepaper.html">Whitepaper</a></li>
+      <li><a href="roadmap.html">Roadmap</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 DICHI · Built on Solana</div>
+  </footer>
+
+  <script>
+    // Highlight active TOC link on scroll
+    const sections = document.querySelectorAll('.wp-section');
+    const tocLinks = document.querySelectorAll('.toc-link');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sections.forEach(s => observer.observe(s));
+  </script>
+
+</body>
+</html>

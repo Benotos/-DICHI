@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DICHI — Roadmap</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:           #0e0e0e;
+      --surface:      #171717;
+      --card:         #1e1e1e;
+      --border:       #2c2c2c;
+      --border-light: #383838;
+      --text:         #f0f0f0;
+      --muted:        #707070;
+      --accent:       #f5c842;
+      --accent2:      #ff6b35;
+      --green:        #14F195;
+      --purple:       #9945FF;
+      --white:        #ffffff;
+      --radius:       14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 68px;
+      background: rgba(14,14,14,0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem; letter-spacing: 0.1em;
+      color: var(--white); text-decoration: none;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo span {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      color: var(--accent); border: 1px solid rgba(245,200,66,0.4);
+      padding: 3px 8px; border-radius: 20px;
+      letter-spacing: 0.12em; font-weight: 500;
+    }
+    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; padding: 8px 16px; border-radius: 8px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-links a:hover  { color: var(--text); background: var(--card); }
+    .nav-links a.active { color: var(--accent); }
+    .nav-cta {
+      padding: 9px 20px; background: var(--accent); color: #0e0e0e !important;
+      border-radius: 8px; font-weight: 700 !important; font-size: 0.82rem !important;
+    }
+    .nav-cta:hover { opacity: 0.85; background: var(--accent) !important; }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      position: relative; z-index: 1;
+      padding: 72px 48px 56px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-end;
+      justify-content: space-between; flex-wrap: wrap; gap: 24px;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; bottom: -80px; right: 5%;
+      width: 420px; height: 420px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(20,241,149,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .page-eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 0.68rem;
+      color: var(--accent); letter-spacing: 0.15em;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .page-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      letter-spacing: 0.04em; line-height: 0.95; color: var(--white);
+    }
+    .page-hero h1 em { font-style: normal; color: var(--accent); }
+
+    .hero-progress {
+      display: flex; flex-direction: column; gap: 10px;
+      align-items: flex-end;
+    }
+    .progress-label {
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .progress-bar-wrap {
+      width: 220px; height: 6px;
+      background: var(--border); border-radius: 3px; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      /* Set this to how far along the roadmap you are, e.g. 25% = Phase 1 complete */
+      width: 25%;
+      transition: width 1.2s ease;
+    }
+    .progress-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; letter-spacing: 0.06em; color: var(--white);
+    }
+    .progress-val em { font-style: normal; color: var(--accent); }
+
+    /* ── CONTAINER ── */
+    .container {
+      position: relative; z-index: 1;
+      max-width: 1000px; margin: 0 auto;
+      padding: 80px 40px;
+    }
+
+    /* ── PHASE STATUS PILLS ── */
+    .status-row {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 64px;
+    }
+    .status-pill {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 14px;
+      border: 1px solid var(--border); border-radius: 20px;
+      font-family: 'DM Mono', monospace; font-size: 0.68rem;
+      color: var(--muted); letter-spacing: 0.08em;
+    }
+    .pill-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .pill-done    .pill-dot { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .pill-active  .pill-dot { background: var(--accent); box-shadow: 0 0 6px var(--accent); animation: pulse 1.4s ease-in-out infinite; }
+    .pill-soon    .pill-dot { background: var(--muted); }
+
+    .pill-done   { border-color: rgba(20,241,149,0.3);  color: var(--green); }
+    .pill-active { border-color: rgba(245,200,66,0.35); color: var(--accent); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* Vertical line */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 28px; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), var(--border) 80%, transparent);
+    }
+
+    /* ── PHASE CARD ── */
+    .phase {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 24px;
+      padding-bottom: 48px;
+      position: relative;
+    }
+    .phase:last-child { padding-bottom: 0; }
+
+    /* Phase node */
+    .phase-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      flex-shrink: 0;
+    }
+
+    .phase-dot {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem; letter-spacing: 0.08em;
+      border: 2px solid var(--border);
+      background: var(--card);
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: all 0.2s;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* States */
+    .phase.done .phase-dot {
+      background: rgba(20,241,149,0.1);
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .phase.active .phase-dot {
+      background: rgba(245,200,66,0.1);
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 0 6px rgba(245,200,66,0.08);
+    }
+    .phase.upcoming .phase-dot {
+      background: var(--surface);
+      border-color: var(--border);
+      color: var(--muted);
+    }
+
+    /* Phase body */
+    .phase-body {
+      padding-top: 12px;
+    }
+
+    .phase-meta {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;
+    }
+    .phase-label {
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .phase-badge {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      padding: 3px 10px; border-radius: 20px; letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+    .badge-done     { background: rgba(20,241,149,0.12); color: var(--green);   border: 1px solid rgba(20,241,149,0.25); }
+    .badge-active   { background: rgba(245,200,66,0.12); color: var(--accent);  border: 1px solid rgba(245,200,66,0.3);  }
+    .badge-upcoming { background: var(--surface);        color: var(--muted);   border: 1px solid var(--border); }
+
+    .phase-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      letter-spacing: 0.04em; color: var(--white);
+      margin-bottom: 6px; line-height: 1;
+    }
+    .phase.upcoming .phase-title { color: var(--muted); }
+    .phase-title em { font-style: normal; color: var(--accent); }
+
+    .phase-subtitle {
+      font-size: 0.8rem; color: var(--muted);
+      margin-bottom: 20px; font-style: italic;
+    }
+
+    /* Milestone list */
+    .milestones {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .milestone {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 16px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; transition: border-color 0.15s;
+    }
+    .milestone:hover { border-color: var(--border-light); }
+
+    .milestone-check {
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; flex-shrink: 0; margin-top: 1px;
+    }
+    .check-done     { background: rgba(20,241,149,0.15); color: var(--green);  border: 1px solid rgba(20,241,149,0.3);  }
+    .check-active   { background: rgba(245,200,66,0.12); color: var(--accent); border: 1px solid rgba(245,200,66,0.3); }
+    .check-upcoming { background: var(--surface);        color: var(--muted);  border: 1px solid var(--border); }
+
+    .milestone-text {
+      flex: 1;
+    }
+    .milestone-title {
+      font-size: 0.88rem; font-weight: 600; color: var(--text); margin-bottom: 2px;
+    }
+    .phase.upcoming .milestone-title { color: var(--muted); }
+    .milestone-desc {
+      font-size: 0.75rem; color: var(--muted); line-height: 1.5;
+    }
+
+    .milestone-tag {
+      font-family: 'DM Mono', monospace; font-size: 0.58rem;
+      padding: 2px 8px; border-radius: 6px;
+      background: var(--surface); color: var(--muted);
+      border: 1px solid var(--border);
+      white-space: nowrap; align-self: flex-start; margin-top: 2px;
+    }
+    .tag-accent { background: rgba(245,200,66,0.08); color: var(--accent); border-color: rgba(245,200,66,0.2); }
+    .tag-green  { background: rgba(20,241,149,0.08);  color: var(--green);  border-color: rgba(20,241,149,0.2); }
+    .tag-purple { background: rgba(153,69,255,0.08); color: var(--purple); border-color: rgba(153,69,255,0.2); }
+
+    /* ── BOTTOM CTA ── */
+    .bottom-cta {
+      margin-top: 72px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 28px;
+      position: relative; overflow: hidden;
+    }
+    .bottom-cta::before {
+      content: '';
+      position: absolute; right: -60px; top: -60px;
+      width: 280px; height: 280px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,200,66,0.07) 0%, transparent 70%);
+    }
+    
+    .cta-label {
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      color: var(--muted); letter-spacing: 0.14em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: 0.04em; color: var(--white); line-height: 1;
+    }
+    .cta-title em { font-style: normal; color: var(--accent); }
+    .cta-sub {
+      font-size: 0.85rem; color: var(--muted); margin-top: 8px; line-height: 1.5;
+    }
+    .cta-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+      font-weight: 700; cursor: pointer; text-decoration: none;
+      transition: all 0.18s; letter-spacing: 0.02em; border: none;
+    }
+    .btn-primary { background: var(--accent); color: #0e0e0e; }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--muted);
+      border: 1px solid var(--border-light);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 36px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.08em; color: var(--white); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 0.8rem; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-size: 0.72rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      nav { padding: 0 20px; }
+      .nav-links a { font-size: 0.78rem; padding: 7px 10px; }
+      .page-hero { padding: 48px 24px 40px; }
+      .container { padding: 48px 20px; }
+      .bottom-cta { padding: 32px 24px; }
+      footer { padding: 24px 20px; }
+    }
+    @media (max-width: 560px) {
+      .timeline::before { left: 22px; }
+      .phase { grid-template-columns: 44px 1fr; gap: 16px; }
+      .phase-dot { width: 44px; height: 44px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">DICHI <span>ON SOLANA</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tokenomics.html">Tokenomics</a></li>
+      <li><a href="whitepaper.html">Whitepaper</a></li>
+      <li><a href="roadmap.html" class="active">Roadmap</a></li>
+      <li><a href="tokenomics.html#how-to-buy" class="nav-cta">Buy $DICHI</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div>
+      <div class="page-eyebrow">// The Journey</div>
+      <h1>Road<em>map</em></h1>
+    </div>
+    <div class="hero-progress">
+      <div class="progress-label">Overall Progress</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressFill"></div>
+      </div>
+      <!-- Update the number below to match how far along you are -->
+      <div class="progress-val"><em>25%</em> Complete</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- STATUS LEGEND -->
+    <div class="status-row">
+      <div class="status-pill pill-done">
+        <div class="pill-dot"></div> Completed
+      </div>
+      <div class="status-pill pill-active">
+        <div class="pill-dot"></div> In Progress
+      </div>
+      <div class="status-pill pill-soon">
+        <div class="pill-dot"></div> Upcoming
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="timeline">
+
+      <!-- ══ PHASE 1 ══ -->
+      <div class="phase done">
+        <div class="phase-node">
+          <div class="phase-dot">✓</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-meta">
+            <span class="phase-label">Phase 01</span>
+            <span class="phase-badge badge-done">✓ Complete</span>
+          </div>
+          <div class="phase-title">The <em>Birth</em></div>
+          <div class="phase-subtitle">Foundation — Q1 2025</div>
+          <div class="milestones">
+            <div class="milestone">
+              <div class="milestone-check check-done">✓</div>
+              <div class="milestone-text">
+                <div class="milestone-title">Concept & Branding</div>
+                <div class="milestone-desc">DICHI identity created. Dog character chosen. Brand assets, colours, and logo finalised.</div>
+              </div>
+              <div class="milestone-tag tag-green">Done</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-done">✓</div>
+              <div class="milestone-text">
+                <div class="milestone-title">Website Launch</div>
+                <div class="milestone-desc">4-page website live: Homepage with PFP generator, Tokenomics, Whitepaper, and Roadmap.</div>
+              </div>
+              <div class="milestone-tag tag-green">Done</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-done">✓</div>
+              <div class="milestone-text">
+                <div class="milestone-title">Smart Contract Deployed</div>
+                <div class="milestone-desc">$DICHI SPL token deployed on Solana. Mint authority revoked. LP burned. Contract renounced.</div>
+              </div>
+              <div class="milestone-tag tag-green">Done</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-done">✓</div>
+              <div class="milestone-text">
+                <div class="milestone-title">Community Channels Open</div>
+                <div class="milestone-desc">Twitter/X and Telegram communities launched. Early supporters onboarded.</div>
+              </div>
+              <div class="milestone-tag tag-green">Done</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PHASE 2 ══ -->
+      <div class="phase active">
+        <div class="phase-node">
+          <div class="phase-dot">02</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-meta">
+            <span class="phase-label">Phase 02</span>
+            <span class="phase-badge badge-active">⬡ In Progress</span>
+          </div>
+          <div class="phase-title">The <em>Launch</em></div>
+          <div class="phase-subtitle">Growth — Q2 2025</div>
+          <div class="milestones">
+            <div class="milestone">
+              <div class="milestone-check check-done">✓</div>
+              <div class="milestone-text">
+                <div class="milestone-title">PFP Generator v1 Live</div>
+                <div class="milestone-desc">Trait-based avatar builder shipped. Upload your dog, layer traits, download your PFP.</div>
+              </div>
+              <div class="milestone-tag tag-green">Done</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-active">→</div>
+              <div class="milestone-text">
+                <div class="milestone-title">DEX Listing — Jupiter & Raydium</div>
+                <div class="milestone-desc">$DICHI live on Jupiter and Raydium. Trading enabled for all holders.</div>
+              </div>
+              <div class="milestone-tag tag-accent">Active</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-active">→</div>
+              <div class="milestone-text">
+                <div class="milestone-title">Dexscreener & Dextools Listing</div>
+                <div class="milestone-desc">Token visible on all major chart platforms with DICHI branding and info.</div>
+              </div>
+              <div class="milestone-tag tag-accent">Active</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">First 1,000 Holders</div>
+                <div class="milestone-desc">Community milestone. Airdrop campaign to reward early supporters and grow the pack.</div>
+              </div>
+              <div class="milestone-tag">Upcoming</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">KOL & Influencer Campaign</div>
+                <div class="milestone-desc">Crypto influencer outreach on Twitter/X. Organic shill campaign across Solana communities.</div>
+              </div>
+              <div class="milestone-tag">Upcoming</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PHASE 3 ══ -->
+      <div class="phase upcoming">
+        <div class="phase-node">
+          <div class="phase-dot">03</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-meta">
+            <span class="phase-label">Phase 03</span>
+            <span class="phase-badge badge-upcoming">Upcoming</span>
+          </div>
+          <div class="phase-title">The <em>Pack</em></div>
+          <div class="phase-subtitle">Community Expansion — Q3 2025</div>
+          <div class="milestones">
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">PFP Generator v2 — Real Trait PNGs</div>
+                <div class="milestone-desc">Replace placeholder drawn traits with real photographic PNG layers. Community votes on new trait additions.</div>
+              </div>
+              <div class="milestone-tag tag-accent">Design</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">5,000 Holders Milestone</div>
+                <div class="milestone-desc">Community growth target. Celebratory airdrop for diamond-paw holders.</div>
+              </div>
+              <div class="milestone-tag">Target</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">CoinMarketCap & CoinGecko Listing</div>
+                <div class="milestone-desc">Applications submitted. Listing on both major aggregators for visibility and legitimacy.</div>
+              </div>
+              <div class="milestone-tag tag-purple">Listing</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">Merchandise Drop</div>
+                <div class="milestone-desc">DICHI branded merch — hoodies, caps, stickers. Holders get first access.</div>
+              </div>
+              <div class="milestone-tag">Community</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PHASE 4 ══ -->
+      <div class="phase upcoming">
+        <div class="phase-node">
+          <div class="phase-dot">04</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-meta">
+            <span class="phase-label">Phase 04</span>
+            <span class="phase-badge badge-upcoming">Upcoming</span>
+          </div>
+          <div class="phase-title">The <em>Moon</em></div>
+          <div class="phase-subtitle">Expansion — Q4 2025</div>
+          <div class="milestones">
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">Tier-2 CEX Listing</div>
+                <div class="milestone-desc">Applications to mid-tier centralised exchanges. Bringing $DICHI to wider audiences beyond Solana DEXs.</div>
+              </div>
+              <div class="milestone-tag tag-purple">CEX</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">DICHI NFT Collection</div>
+                <div class="milestone-desc">Official DICHI NFT collection launching on Solana. PFP generator traits become the foundation for the collection.</div>
+              </div>
+              <div class="milestone-tag tag-purple">NFT</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">10,000 Holders Milestone</div>
+                <div class="milestone-desc">The pack is massive. Celebration event, major giveaway, and community-voted next steps.</div>
+              </div>
+              <div class="milestone-tag">Target</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">Tier-1 CEX Target</div>
+                <div class="milestone-desc">The dream. A tier-1 exchange listing. Community-driven campaign to make it happen.</div>
+              </div>
+              <div class="milestone-tag tag-accent">Big Dog</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PHASE 5 ══ -->
+      <div class="phase upcoming">
+        <div class="phase-node">
+          <div class="phase-dot">05</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-meta">
+            <span class="phase-label">Phase 05</span>
+            <span class="phase-badge badge-upcoming">The Future</span>
+          </div>
+          <div class="phase-title">Beyond the <em>Stars</em></div>
+          <div class="phase-subtitle">2026 & Beyond</div>
+          <div class="milestones">
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">DICHI DAO</div>
+                <div class="milestone-desc">Full community governance. $DICHI holders vote on treasury spending, partnerships, and product direction.</div>
+              </div>
+              <div class="milestone-tag tag-purple">Governance</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">Cross-Chain Expansion</div>
+                <div class="milestone-desc">Bridge $DICHI to other chains. Ethereum, Base, and beyond — wherever the pack roams.</div>
+              </div>
+              <div class="milestone-tag">Multi-chain</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-check check-upcoming">○</div>
+              <div class="milestone-text">
+                <div class="milestone-title">World Domination 🐶</div>
+                <div class="milestone-desc">DICHI becomes the most recognised dog in crypto. The good boy wins.</div>
+              </div>
+              <div class="milestone-tag tag-accent">Inevitable</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /timeline -->
+
+    <!-- BOTTOM CTA -->
+    <div class="bottom-cta">
+      <div class="cta-left">
+        <div class="cta-label">// Join the Pack</div>
+        <div class="cta-title">Ready to be a<br><em>Good Boy?</em></div>
+        <div class="cta-sub">Buy $DICHI, build your PFP, and ride the wave.</div>
+      </div>
+      <div class="cta-buttons">
+        <a href="tokenomics.html#how-to-buy" class="btn btn-primary">🚀 Buy $DICHI</a>
+        <a href="index.html#generator" class="btn btn-outline">🎨 Make PFP</a>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">DICHI</div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tokenomics.html">Tokenomics</a></li>
+      <li><a href="whitepaper.html">Whitepaper</a></li>
+      <li><a href="roadmap.html">Roadmap</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 DICHI · Built on Solana</div>
+  </footer>
+
+  <script>
+    // Animate progress bar on load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('progressFill').style.width = '25%';
+        // Change this number to reflect real progress, e.g. 50 for Phase 2 complete
+      }, 300);
+    });
+  </script>
+
+</body>
+</html>
