@@ -7,9 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <style>
-    /* ============================================================
-       CSS VARIABLES — change these to retheme the whole site
-    ============================================================ */
     :root {
       --bg:           #0e0e0e;
       --surface:      #171717;
@@ -18,15 +15,12 @@
       --border-light: #383838;
       --text:         #f0f0f0;
       --muted:        #707070;
-      --accent:       #f5c842;   /* golden yellow */
-      --accent2:      #ff6b35;   /* orange */
+      --accent:       #f5c842;
+      --accent2:      #ff6b35;
       --white:        #ffffff;
       --radius:       14px;
     }
 
-    /* ============================================================
-       RESET & BASE
-    ============================================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -37,238 +31,121 @@
       overflow-x: hidden;
     }
 
-    /* Subtle noise texture overlay */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       background-size: 180px 180px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.5;
+      pointer-events: none; z-index: 0; opacity: 0.5;
     }
 
-    /* ============================================================
-       NAVBAR
-    ============================================================ */
+    /* ── NAVBAR ── */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 48px;
-      height: 68px;
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 68px;
       background: rgba(14,14,14,0.85);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
     }
-
     .nav-logo {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.9rem;
-      letter-spacing: 0.1em;
-      color: var(--white);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-size: 1.9rem; letter-spacing: 0.1em;
+      color: var(--white); text-decoration: none;
+      display: flex; align-items: center; gap: 10px;
     }
     .nav-logo span {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      color: var(--accent);
-      border: 1px solid rgba(245,200,66,0.4);
-      padding: 3px 8px;
-      border-radius: 20px;
-      letter-spacing: 0.12em;
-      vertical-align: middle;
-      font-weight: 500;
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      color: var(--accent); border: 1px solid rgba(245,200,66,0.4);
+      padding: 3px 8px; border-radius: 20px;
+      letter-spacing: 0.12em; font-weight: 500;
     }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      list-style: none;
-    }
+    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
     .nav-links a {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--muted);
-      text-decoration: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      transition: color 0.15s, background 0.15s;
-      letter-spacing: 0.02em;
+      font-size: 0.85rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; padding: 8px 16px; border-radius: 8px;
+      transition: color 0.15s, background 0.15s; letter-spacing: 0.02em;
     }
-    .nav-links a:hover    { color: var(--text); background: var(--card); }
-    .nav-links a.active   { color: var(--accent); }
-
+    .nav-links a:hover  { color: var(--text); background: var(--card); }
+    .nav-links a.active { color: var(--accent); }
     .nav-cta {
-      padding: 9px 20px;
-      background: var(--accent);
-      color: #0e0e0e !important;
-      border-radius: 8px;
-      font-weight: 700 !important;
-      font-size: 0.82rem !important;
-      transition: opacity 0.15s !important;
+      padding: 9px 20px; background: var(--accent); color: #0e0e0e !important;
+      border-radius: 8px; font-weight: 700 !important; font-size: 0.82rem !important;
     }
     .nav-cta:hover { opacity: 0.85; background: var(--accent) !important; }
 
-    /* ============================================================
-       HERO SECTION
-    ============================================================ */
+    /* ── HERO ── */
     .hero {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 80px 24px 48px;
+      position: relative; z-index: 1;
+      text-align: center; padding: 80px 24px 48px;
     }
-
     .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      border: 1px solid rgba(245,200,66,0.3);
-      padding: 6px 14px;
-      border-radius: 20px;
-      margin-bottom: 24px;
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'DM Mono', monospace; font-size: 0.7rem;
+      color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase;
+      border: 1px solid rgba(245,200,66,0.3); padding: 6px 14px;
+      border-radius: 20px; margin-bottom: 24px;
     }
     .hero-eyebrow::before { content: '⬡'; font-size: 0.8rem; }
-
     .hero h1 {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(4rem, 10vw, 8rem);
-      letter-spacing: 0.04em;
-      line-height: 0.95;
-      color: var(--white);
-      margin-bottom: 20px;
+      letter-spacing: 0.04em; line-height: 0.95;
+      color: var(--white); margin-bottom: 20px;
     }
-    .hero h1 em {
-      font-style: normal;
-      color: var(--accent);
-    }
-
+    .hero h1 em { font-style: normal; color: var(--accent); }
     .hero p {
-      max-width: 500px;
-      margin: 0 auto 32px;
-      color: var(--muted);
-      font-size: 1.05rem;
-      line-height: 1.6;
-      font-weight: 400;
+      max-width: 500px; margin: 0 auto 32px;
+      color: var(--muted); font-size: 1.05rem; line-height: 1.6;
     }
-
-    .hero-actions {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    /* ============================================================
-       BUTTONS (reusable)
-    ============================================================ */
+    .hero-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.18s;
-      letter-spacing: 0.02em;
-      border: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: all 0.18s;
+      letter-spacing: 0.02em; border: none;
     }
-    .btn-primary {
-      background: var(--accent);
-      color: #0e0e0e;
-    }
+    .btn-primary { background: var(--accent); color: #0e0e0e; }
     .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid var(--border-light);
-    }
+    .btn-outline { background: transparent; color: var(--muted); border: 1px solid var(--border-light); }
     .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* ============================================================
-       TICKER STRIP
-    ============================================================ */
+    /* ── TICKER ── */
     .ticker-wrap {
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-      padding: 10px 0;
-      white-space: nowrap;
-      margin-bottom: 60px;
+      position: relative; z-index: 1; overflow: hidden;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--surface); padding: 10px 0;
+      white-space: nowrap; margin-bottom: 60px;
     }
-    .ticker-track {
-      display: inline-block;
-      animation: ticker 28s linear infinite;
-    }
+    .ticker-track { display: inline-block; animation: ticker 28s linear infinite; }
     .ticker-track span {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      padding: 0 28px;
+      font-family: 'DM Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.1em; color: var(--muted); padding: 0 28px;
     }
     .ticker-track span.hi { color: var(--accent); }
-    @keyframes ticker {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-    /* ============================================================
-       PFP GENERATOR SECTION
-    ============================================================ */
+    /* ── GENERATOR SECTION ── */
     .section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--muted);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      color: var(--muted); letter-spacing: 0.18em;
+      text-transform: uppercase; margin-bottom: 8px;
     }
     .section-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(2rem, 5vw, 3.2rem);
-      letter-spacing: 0.05em;
-      color: var(--white);
-      margin-bottom: 6px;
+      letter-spacing: 0.05em; color: var(--white); margin-bottom: 6px;
     }
     .section-title em { font-style: normal; color: var(--accent); }
 
     .generator-wrapper {
-      position: relative;
-      z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
+      position: relative; z-index: 1;
+      max-width: 1200px; margin: 0 auto; padding: 0 24px 80px;
     }
+    .generator-header { margin-bottom: 28px; }
 
-    .generator-header {
-      margin-bottom: 28px;
-    }
-
-    /* Generator App Shell */
     .gen-app {
       display: grid;
       grid-template-columns: 260px 1fr 260px;
@@ -276,114 +153,80 @@
       align-items: start;
     }
 
-    /* ── Left panel ── */
+    /* ── LEFT PANEL ── */
     .gen-panel {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
     }
-
     .gen-panel-head {
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      color: var(--muted);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
+      padding: 14px 16px; border-bottom: 1px solid var(--border);
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase;
     }
-
     .gen-panel-body { padding: 10px; }
 
     .cat-btn {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-      padding: 10px 10px;
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: 10px;
-      cursor: pointer;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 500;
-      transition: all 0.14s;
-      text-align: left;
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 10px; background: transparent; border: 1px solid transparent;
+      border-radius: 10px; cursor: pointer; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500;
+      transition: all 0.14s; text-align: left;
     }
-    .cat-btn:hover { background: var(--surface); color: var(--text); }
+    .cat-btn:hover  { background: var(--surface); color: var(--text); }
     .cat-btn.active { background: var(--surface); border-color: var(--accent); color: var(--accent); }
-
     .cat-icon {
-      width: 30px; height: 30px;
-      border-radius: 7px;
-      background: var(--bg);
+      width: 30px; height: 30px; border-radius: 7px; background: var(--bg);
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.95rem;
-      flex-shrink: 0;
+      font-size: 0.95rem; flex-shrink: 0;
     }
     .cat-btn.active .cat-icon { background: rgba(245,200,66,0.1); }
-
     .cat-count {
-      margin-left: auto;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      color: var(--muted);
-      background: var(--bg);
-      padding: 2px 6px;
-      border-radius: 8px;
+      margin-left: auto; font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      color: var(--muted); background: var(--bg); padding: 2px 6px; border-radius: 8px;
     }
 
-    /* ── Center preview ── */
-    .gen-center {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
+    /* ── CENTER PREVIEW ── */
+    .gen-center { display: flex; flex-direction: column; align-items: center; gap: 20px; }
 
     .preview-ring {
-      padding: 3px;
-      border-radius: 50%;
+      padding: 3px; border-radius: 50%;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      flex-shrink: 0;
     }
     .preview-inner {
-      border-radius: 50%;
-      overflow: hidden;
-      background: var(--card);
+      border-radius: 50%; overflow: hidden; background: var(--card);
     }
+
+    /* Loading state for mascot */
+    #canvasWrap { position: relative; }
+    .canvas-loading {
+      position: absolute; inset: 3px;
+      border-radius: 50%;
+      background: var(--card);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2;
+      transition: opacity 0.3s;
+    }
+    .canvas-loading.hidden { opacity: 0; pointer-events: none; }
+    .loading-spinner {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     #pfpCanvas { display: block; border-radius: 50%; }
 
-    .upload-placeholder {
-      width: 360px; height: 360px;
-      border-radius: 50%;
-      background: var(--card);
-      border: 2px dashed var(--border-light);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 10px; cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .upload-placeholder:hover { border-color: var(--accent); background: rgba(245,200,66,0.03); }
-    .upload-placeholder .ph-icon { font-size: 2.8rem; opacity: 0.35; }
-    .upload-placeholder p { font-size: 0.82rem; color: var(--muted); text-align: center; line-height: 1.5; }
-    .upload-placeholder p strong { color: var(--accent); display: block; }
-
+    /* Chips */
     .chips-row {
       display: flex; flex-wrap: wrap; gap: 6px;
-      justify-content: center; max-width: 380px;
-      min-height: 28px;
+      justify-content: center; max-width: 380px; min-height: 28px;
     }
     .chip {
       display: flex; align-items: center; gap: 5px;
-      padding: 3px 9px 3px 6px;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: 0.68rem; color: var(--text);
-      font-family: 'DM Mono', monospace;
+      padding: 3px 9px 3px 6px; background: var(--card);
+      border: 1px solid var(--border); border-radius: 20px;
+      font-size: 0.68rem; color: var(--text); font-family: 'DM Mono', monospace;
     }
     .chip-remove {
       background: none; border: none; cursor: pointer;
@@ -391,63 +234,54 @@
     }
     .chip-remove:hover { color: var(--accent2); }
 
-    .gen-actions {
-      display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
-    }
+    /* Action buttons */
+    .gen-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
     .btn-sm {
-      padding: 10px 18px;
-      border-radius: 9px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.8rem; font-weight: 600;
-      cursor: pointer; transition: all 0.15s;
-      border: none; letter-spacing: 0.02em;
+      padding: 10px 18px; border-radius: 9px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; transition: all 0.15s; border: none; letter-spacing: 0.02em;
     }
     .btn-sm-primary { background: var(--accent); color: #0e0e0e; }
     .btn-sm-primary:hover { opacity: 0.88; }
     .btn-sm-ghost { background: var(--card); color: var(--text); border: 1px solid var(--border); }
     .btn-sm-ghost:hover { border-color: var(--border-light); }
 
-    /* ── Right panel: trait options ── */
-    .trait-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-      padding: 12px;
-    }
+    /* ── RIGHT PANEL ── */
+    .trait-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; }
+
     .trait-opt {
       background: var(--surface); border: 1.5px solid var(--border);
       border-radius: 10px; cursor: pointer;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 5px; padding: 10px 6px;
-      aspect-ratio: 1; position: relative;
-      transition: all 0.14s;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 5px; padding: 10px 6px;
+      aspect-ratio: 1; position: relative; transition: all 0.14s;
     }
-    .trait-opt:hover { border-color: var(--border-light); background: var(--card); }
+    .trait-opt:hover  { border-color: var(--border-light); background: var(--card); }
     .trait-opt.selected { border-color: var(--accent); background: rgba(245,200,66,0.05); }
     .trait-opt.none-opt { border-style: dashed; }
 
     .trait-thumb {
-      width: 52px; height: 52px;
+      width: 60px; height: 60px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.8rem;
+      overflow: hidden; border-radius: 6px;
     }
+    .trait-thumb img { width: 100%; height: 100%; object-fit: contain; }
+
     .trait-name {
       font-size: 0.65rem; color: var(--muted);
-      font-family: 'DM Mono', monospace;
-      text-align: center;
+      font-family: 'DM Mono', monospace; text-align: center;
     }
     .trait-opt.selected .trait-name { color: var(--accent); }
 
     .sel-badge {
       position: absolute; top: 5px; right: 5px;
-      width: 14px; height: 14px;
-      background: var(--accent); border-radius: 50%;
+      width: 14px; height: 14px; background: var(--accent); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-size: 0.55rem; color: #0e0e0e; font-weight: 700;
     }
 
-    .bg-grid {
-      display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; padding: 12px;
-    }
+    /* Background colour swatches */
+    .bg-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; padding: 12px; }
     .bg-swatch {
       aspect-ratio: 1; border-radius: 8px; cursor: pointer;
       border: 2px solid transparent; transition: transform 0.14s, border-color 0.14s;
@@ -462,44 +296,32 @@
       text-shadow: 0 1px 3px rgba(0,0,0,0.6);
     }
 
-    /* ============================================================
-       FOOTER
-    ============================================================ */
+    /* Shimmer while webp loads */
+    .thumb-loading {
+      width: 60px; height: 60px; border-radius: 6px;
+      background: linear-gradient(90deg, var(--border) 25%, var(--border-light) 50%, var(--border) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* ── FOOTER ── */
     footer {
       position: relative; z-index: 1;
-      border-top: 1px solid var(--border);
-      padding: 36px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
+      border-top: 1px solid var(--border); padding: 36px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
     }
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
-      letter-spacing: 0.08em;
-      color: var(--white);
-    }
-    .footer-links {
-      display: flex; gap: 24px; list-style: none;
-    }
-    .footer-links a {
-      font-size: 0.8rem; color: var(--muted); text-decoration: none; transition: color 0.15s;
-    }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.08em; color: var(--white); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 0.8rem; color: var(--muted); text-decoration: none; transition: color 0.15s; }
     .footer-links a:hover { color: var(--accent); }
-    .footer-copy {
-      font-size: 0.72rem; color: var(--muted);
-      font-family: 'DM Mono', monospace;
-    }
+    .footer-copy { font-size: 0.72rem; color: var(--muted); font-family: 'DM Mono', monospace; }
 
-    /* ============================================================
-       RESPONSIVE
-    ============================================================ */
+    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .gen-app { grid-template-columns: 1fr; }
       nav { padding: 0 20px; }
-      .nav-links { gap: 2px; }
       .nav-links a { font-size: 0.78rem; padding: 7px 10px; }
       footer { padding: 24px 20px; }
     }
@@ -507,13 +329,9 @@
 </head>
 <body>
 
-  <!-- ============================================================
-       NAVBAR
-  ============================================================ -->
+  <!-- NAVBAR -->
   <nav>
-    <a href="index.html" class="nav-logo">
-      DICHI <span>ON SOLANA</span>
-    </a>
+    <a href="index.html" class="nav-logo">DICHI <span>ON SOLANA</span></a>
     <ul class="nav-links">
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="tokenomics.html">Tokenomics</a></li>
@@ -523,9 +341,7 @@
     </ul>
   </nav>
 
-  <!-- ============================================================
-       HERO
-  ============================================================ -->
+  <!-- HERO -->
   <section class="hero">
     <div class="hero-eyebrow">Built on Solana</div>
     <h1>Meet <em>Dichi</em><br>The Good Boy</h1>
@@ -536,11 +352,8 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       TICKER
-  ============================================================ -->
+  <!-- TICKER -->
   <div class="ticker-wrap">
-    <!-- Duplicated for seamless loop -->
     <div class="ticker-track">
       <span class="hi">$DICHI</span><span>THE GOOD BOY ON SOLANA</span>
       <span class="hi">🐶</span><span>COMMUNITY DRIVEN</span>
@@ -550,7 +363,6 @@
       <span class="hi">🐶</span><span>COMMUNITY DRIVEN</span>
       <span class="hi">$DICHI</span><span>NO TAX · NO BULLSH*T</span>
       <span class="hi">⬡</span><span>POWERED BY SOLANA</span>
-      <!-- Duplicate for loop -->
       <span class="hi">$DICHI</span><span>THE GOOD BOY ON SOLANA</span>
       <span class="hi">🐶</span><span>COMMUNITY DRIVEN</span>
       <span class="hi">$DICHI</span><span>NO TAX · NO BULLSH*T</span>
@@ -562,9 +374,7 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       PFP GENERATOR
-  ============================================================ -->
+  <!-- PFP GENERATOR -->
   <section id="generator" class="generator-wrapper">
     <div class="generator-header">
       <div class="section-label">// Build Your Identity</div>
@@ -600,33 +410,25 @@
 
       <!-- CENTER: CANVAS -->
       <div class="gen-center">
-
-        <!-- Upload placeholder (shown before dog is uploaded) -->
-        <div id="uploadPlaceholder" class="upload-placeholder" onclick="document.getElementById('dogInput').click()">
-          <div class="ph-icon">🐶</div>
-          <p><strong>Upload Your Dog Photo</strong>This becomes the base of your PFP</p>
-        </div>
-        <input type="file" id="dogInput" accept="image/*" style="display:none" onchange="loadDog(event)" />
-
-        <!-- Canvas (hidden until dog is uploaded) -->
-        <div id="canvasWrap" style="display:none;">
+        <div id="canvasWrap">
           <div class="preview-ring">
             <div class="preview-inner">
+              <!-- Spinner shown while logo.jpg loads -->
+              <div class="canvas-loading" id="canvasLoading">
+                <div class="loading-spinner"></div>
+              </div>
               <canvas id="pfpCanvas" width="360" height="360"></canvas>
             </div>
           </div>
         </div>
 
-        <!-- Active trait chips -->
         <div class="chips-row" id="chipsRow"></div>
 
-        <!-- Action buttons -->
         <div class="gen-actions">
           <button class="btn-sm btn-sm-ghost" onclick="randomize()">🎲 Randomize</button>
           <button class="btn-sm btn-sm-ghost" onclick="clearAll()">✕ Clear All</button>
           <button class="btn-sm btn-sm-primary" onclick="downloadPFP()">↓ Download PNG</button>
         </div>
-
       </div>
 
       <!-- RIGHT: TRAIT OPTIONS -->
@@ -638,9 +440,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       FOOTER
-  ============================================================ -->
+  <!-- FOOTER -->
   <footer>
     <div class="footer-logo">DICHI</div>
     <ul class="footer-links">
@@ -653,12 +453,22 @@
   </footer>
 
 
-  <!-- ============================================================
-       JAVASCRIPT — PFP GENERATOR LOGIC
-  ============================================================ -->
   <script>
 
-    /* ── DATA ─────────────────────────────────── */
+    // ─────────────────────────────────────────────────────
+    // BASE MASCOT — logo.jpg in the same folder as index.html
+    // Everyone gets the same Dichi dog as their base character
+    // ─────────────────────────────────────────────────────
+    const BASE_IMAGE = 'logo.jpg';
+
+    // ─────────────────────────────────────────────────────
+    // TRAITS FOLDER — all .webp files go inside here
+    // ─────────────────────────────────────────────────────
+    const TRAITS_FOLDER = 'traits/';
+
+    // ─────────────────────────────────────────────────────
+    // BACKGROUNDS — colour only
+    // ─────────────────────────────────────────────────────
     const BACKGROUNDS = [
       { id: 'bg_yellow',  name: 'Golden',   color: '#f5c842' },
       { id: 'bg_orange',  name: 'Flame',    color: '#ff6b35' },
@@ -670,441 +480,163 @@
       { id: 'bg_white',   name: 'Pure',     color: '#f8f8f8' },
     ];
 
+    // ─────────────────────────────────────────────────────
+    // TRAITS
+    // file name must match the .webp file inside traits/
+    //
+    // FOLDER STRUCTURE:
+    // dichi/
+    // ├── index.html
+    // ├── logo.jpg          ← the Dichi mascot base
+    // ├── tokenomics.html
+    // ├── whitepaper.html
+    // ├── roadmap.html
+    // └── traits/
+    //     ├── laser.png
+    //     ├── sunglasses.png
+    //     ├── hearts.png
+    //     ├── stars.png
+    //     ├── xeyes.png
+    //     ├── cap.png
+    //     ├── crown.png
+    //     ├── tophat.png
+    //     ├── halo.png
+    //     ├── beanie.png
+    //     ├── cowboy.png
+    //     ├── party.png
+    //     ├── hoodie.webp
+    //     ├── suit.webp
+    //     ├── tshirt.webp
+    //     ├── jersey.webp
+    //     ├── robe.webp
+    //     ├── chain.webp
+    //     ├── smile.webp
+    //     ├── tongue.webp
+    //     ├── grin.webp
+    //     ├── cig.webp
+    //     ├── dollar.webp
+    //     ├── gold_chain.webp
+    //     ├── monocle.webp
+    //     ├── earring.webp
+    //     ├── bowtie.webp
+    //     ├── pipe.webp
+    //     └── wings.webp
+    // ─────────────────────────────────────────────────────
     const TRAITS = {
       eyes: [
-        { id: null, name: 'None', none: true },
-        { id: 'laser',      name: 'Laser',
-          draw(ctx, W, H) {
-            const cx = W/2, ey = H*0.38;
-            [-0.12,0.12].forEach(ox => {
-              const x = cx + ox*W;
-              ctx.save(); ctx.shadowColor='#ff2222'; ctx.shadowBlur=18;
-              ctx.fillStyle='#ff4444';
-              ctx.beginPath(); ctx.ellipse(x,ey,W*0.04,W*0.025,0,0,Math.PI*2); ctx.fill();
-              ctx.strokeStyle='rgba(255,50,50,0.55)'; ctx.lineWidth=3;
-              ctx.beginPath(); ctx.moveTo(x,ey); ctx.lineTo(x,H*0.9); ctx.stroke();
-              ctx.restore();
-            });
-          }
-        },
-        { id: 'sunglasses', name: 'Shades',
-          draw(ctx, W, H) {
-            const cx=W/2, ey=H*0.38;
-            ctx.save(); ctx.fillStyle='#111'; ctx.strokeStyle='#555'; ctx.lineWidth=2.5;
-            ctx.beginPath(); ctx.moveTo(cx-W*0.06,ey); ctx.lineTo(cx+W*0.06,ey); ctx.stroke();
-            [-0.14,0.14].forEach(ox => {
-              ctx.beginPath(); ctx.ellipse(cx+ox*W,ey,W*0.09,W*0.065,-0.1,0,Math.PI*2);
-              ctx.fill(); ctx.stroke();
-            });
-            ctx.beginPath(); ctx.moveTo(cx-W*0.23,ey); ctx.lineTo(cx-W*0.28,ey-W*0.01); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(cx+W*0.23,ey); ctx.lineTo(cx+W*0.28,ey-W*0.01); ctx.stroke();
-            ctx.restore();
-          }
-        },
-        { id: 'hearts', name: 'Hearts',
-          draw(ctx, W, H) {
-            const cx=W/2, ey=H*0.38;
-            ctx.save(); ctx.fillStyle='#ff6eb4'; ctx.shadowColor='#ff6eb4'; ctx.shadowBlur=10;
-            [-0.13,0.13].forEach(ox => {
-              const x=cx+ox*W, y=ey, s=W*0.05;
-              ctx.beginPath();
-              ctx.moveTo(x,y+s*0.3);
-              ctx.bezierCurveTo(x,y-s*0.1,x-s*0.8,y-s*0.1,x-s*0.8,y+s*0.4);
-              ctx.bezierCurveTo(x-s*0.8,y+s*0.9,x,y+s*1.3,x,y+s*1.3);
-              ctx.bezierCurveTo(x,y+s*1.3,x+s*0.8,y+s*0.9,x+s*0.8,y+s*0.4);
-              ctx.bezierCurveTo(x+s*0.8,y-s*0.1,x,y-s*0.1,x,y+s*0.3);
-              ctx.fill();
-            });
-            ctx.restore();
-          }
-        },
-        { id: 'stars', name: 'Stars',
-          draw(ctx, W, H) {
-            const cx=W/2, ey=H*0.38;
-            ctx.save(); ctx.fillStyle='#f5c842'; ctx.shadowColor='#f5c842'; ctx.shadowBlur=12;
-            [-0.13,0.13].forEach(ox => {
-              const x=cx+ox*W, y=ey, r=W*0.06, ir=W*0.025;
-              ctx.beginPath();
-              for(let i=0;i<5;i++){
-                const a1=(i*2/5)*Math.PI-Math.PI/2, a2=((i*2+1)/5)*Math.PI-Math.PI/2;
-                i===0?ctx.moveTo(x+Math.cos(a1)*r,y+Math.sin(a1)*r):ctx.lineTo(x+Math.cos(a1)*r,y+Math.sin(a1)*r);
-                ctx.lineTo(x+Math.cos(a2)*ir,y+Math.sin(a2)*ir);
-              }
-              ctx.closePath(); ctx.fill();
-            });
-            ctx.restore();
-          }
-        },
-        { id: 'xeyes', name: 'X Eyes',
-          draw(ctx, W, H) {
-            const cx=W/2, ey=H*0.38;
-            ctx.save(); ctx.strokeStyle='#fff'; ctx.lineWidth=4; ctx.lineCap='round';
-            [-0.13,0.13].forEach(ox => {
-              const x=cx+ox*W, r=W*0.055;
-              ctx.beginPath(); ctx.moveTo(x-r,ey-r); ctx.lineTo(x+r,ey+r); ctx.stroke();
-              ctx.beginPath(); ctx.moveTo(x+r,ey-r); ctx.lineTo(x-r,ey+r); ctx.stroke();
-            });
-            ctx.restore();
-          }
-        },
+        { id: null,         name: 'None',      none: true },
+        { id: 'laser',      name: 'Laser',     file: 'laser.png' },
+        { id: 'sunglasses', name: 'Shades',    file: 'sunglasses.png' },
+        { id: 'hearts',     name: 'Hearts',    file: 'hearts.png' },
+        { id: 'stars',      name: 'Stars',     file: 'stars.png' },
+        { id: 'xeyes',      name: 'X Eyes',    file: 'xeyes.png' },
       ],
-
       hat: [
-        { id: null, name: 'None', none: true },
-        { id: 'cap', name: 'Cap',
-          draw(ctx, W, H) {
-            const cx=W/2, ty=H*0.18;
-            ctx.save();
-            ctx.fillStyle='#222';
-            ctx.beginPath(); ctx.ellipse(cx,ty+W*0.08,W*0.22,W*0.14,0,Math.PI,0); ctx.fill();
-            ctx.fillStyle='#333';
-            ctx.beginPath(); ctx.ellipse(cx+W*0.08,ty+W*0.08,W*0.18,W*0.045,0.3,0,Math.PI*2); ctx.fill();
-            ctx.fillStyle='#f5c842'; ctx.font=`bold ${W*0.08}px 'Bebas Neue',sans-serif`;
-            ctx.textAlign='center'; ctx.textBaseline='middle';
-            ctx.fillText('D', cx-W*0.03, ty+W*0.055);
-            ctx.restore();
-          }
-        },
-        { id: 'crown', name: 'Crown',
-          draw(ctx, W, H) {
-            const cx=W/2, ty=H*0.12;
-            ctx.save(); ctx.fillStyle='#f5c842'; ctx.strokeStyle='#d4a017'; ctx.lineWidth=2;
-            ctx.beginPath();
-            ctx.moveTo(cx-W*0.18,ty+W*0.1); ctx.lineTo(cx-W*0.18,ty);
-            ctx.lineTo(cx-W*0.09,ty+W*0.06); ctx.lineTo(cx,ty-W*0.02);
-            ctx.lineTo(cx+W*0.09,ty+W*0.06); ctx.lineTo(cx+W*0.18,ty);
-            ctx.lineTo(cx+W*0.18,ty+W*0.1); ctx.closePath();
-            ctx.fill(); ctx.stroke();
-            ['#ff6b35','#9945FF','#4f9eff'].forEach((c,i) => {
-              ctx.fillStyle=c; ctx.beginPath();
-              ctx.arc(cx+(i-1)*W*0.075,ty+W*0.055,W*0.018,0,Math.PI*2); ctx.fill();
-            });
-            ctx.restore();
-          }
-        },
-        { id: 'tophat', name: 'Top Hat',
-          draw(ctx, W, H) {
-            const cx=W/2, ty=H*0.1;
-            ctx.save(); ctx.fillStyle='#111'; ctx.strokeStyle='#333'; ctx.lineWidth=2;
-            ctx.beginPath(); ctx.ellipse(cx,ty+W*0.17,W*0.22,W*0.05,0,0,Math.PI*2);
-            ctx.fill(); ctx.stroke();
-            ctx.fillStyle='#111';
-            ctx.beginPath(); ctx.rect(cx-W*0.13,ty,W*0.26,W*0.17);
-            ctx.fill(); ctx.stroke();
-            ctx.fillStyle='#f5c842'; ctx.fillRect(cx-W*0.13,ty+W*0.12,W*0.26,W*0.025);
-            ctx.restore();
-          }
-        },
-        { id: 'halo', name: 'Halo',
-          draw(ctx, W, H) {
-            const cx=W/2, ty=H*0.1;
-            ctx.save(); ctx.strokeStyle='#f5c842'; ctx.lineWidth=5;
-            ctx.shadowColor='#f5c842'; ctx.shadowBlur=14; ctx.globalAlpha=0.9;
-            ctx.beginPath(); ctx.ellipse(cx,ty,W*0.16,W*0.045,0,0,Math.PI*2); ctx.stroke();
-            ctx.restore();
-          }
-        },
-        { id: 'beanie', name: 'Beanie',
-          draw(ctx, W, H) {
-            const cx=W/2, ty=H*0.14;
-            ctx.save(); ctx.fillStyle='#4f9eff';
-            ctx.beginPath(); ctx.ellipse(cx,ty+W*0.1,W*0.2,W*0.12,0,Math.PI,0); ctx.fill();
-            ctx.strokeStyle='rgba(255,255,255,0.2)'; ctx.lineWidth=2;
-            for(let i=0;i<4;i++){
-              ctx.beginPath(); ctx.moveTo(cx-W*0.2+i*W*0.1,ty+W*0.1);
-              ctx.lineTo(cx-W*0.2+i*W*0.1,ty+W*0.14); ctx.stroke();
-            }
-            ctx.fillStyle='#fff';
-            ctx.beginPath(); ctx.arc(cx,ty,W*0.03,0,Math.PI*2); ctx.fill();
-            ctx.restore();
-          }
-        },
-        { id: 'cowboy', name: 'Cowboy',
-          draw(ctx, W, H) {
-            const cx=W/2, ty=H*0.12;
-            ctx.save(); ctx.fillStyle='#8B5E3C'; ctx.strokeStyle='#5C3D1E'; ctx.lineWidth=2;
-            ctx.beginPath();
-            ctx.moveTo(cx-W*0.3,ty+W*0.14);
-            ctx.quadraticCurveTo(cx-W*0.14,ty+W*0.17,cx-W*0.12,ty+W*0.1);
-            ctx.lineTo(cx+W*0.12,ty+W*0.1);
-            ctx.quadraticCurveTo(cx+W*0.14,ty+W*0.17,cx+W*0.3,ty+W*0.14);
-            ctx.fill();
-            ctx.beginPath(); ctx.ellipse(cx,ty+W*0.06,W*0.14,W*0.1,0,Math.PI,0);
-            ctx.fill(); ctx.stroke();
-            ctx.strokeStyle='#f5c842'; ctx.lineWidth=3;
-            ctx.beginPath(); ctx.moveTo(cx-W*0.12,ty+W*0.1); ctx.lineTo(cx+W*0.12,ty+W*0.1); ctx.stroke();
-            ctx.restore();
-          }
-        },
-        { id: 'party', name: 'Party Hat',
-          draw(ctx, W, H) {
-            const cx=W/2, ty=H*0.12;
-            ctx.save(); ctx.fillStyle='#ff6eb4'; ctx.strokeStyle='#d45090'; ctx.lineWidth=1.5;
-            ctx.beginPath();
-            ctx.moveTo(cx-W*0.14,ty+W*0.12); ctx.lineTo(cx,ty-W*0.06); ctx.lineTo(cx+W*0.14,ty+W*0.12);
-            ctx.closePath(); ctx.fill(); ctx.stroke();
-            ctx.fillStyle='#f5c842';
-            ctx.beginPath(); ctx.arc(cx,ty-W*0.06,W*0.022,0,Math.PI*2); ctx.fill();
-            ctx.restore();
-          }
-        },
+        { id: null,     name: 'None',      none: true },
+        { id: 'cap',    name: 'Cap',       file: 'cap.png' },
+        { id: 'crown',  name: 'Crown',     file: 'crown.png' },
+        { id: 'tophat', name: 'Top Hat',   file: 'tophat.png' },
+        { id: 'halo',   name: 'Halo',      file: 'halo.png' },
+        { id: 'beanie', name: 'Beanie',    file: 'beanie.png' },
+        { id: 'cowboy', name: 'Cowboy',    file: 'cowboy.png' },
+        { id: 'party',  name: 'Party Hat', file: 'party.png' },
       ],
-
       clothing: [
-        { id: null, name: 'None', none: true },
-        { id: 'hoodie', name: 'Hoodie',
-          draw(ctx, W, H) {
-            const cx=W/2, by=H*0.72;
-            ctx.save(); ctx.fillStyle='#333';
-            ctx.beginPath();
-            ctx.moveTo(cx-W*0.28,H); ctx.lineTo(cx-W*0.26,by);
-            ctx.quadraticCurveTo(cx-W*0.1,by-W*0.06,cx,by-W*0.04);
-            ctx.quadraticCurveTo(cx+W*0.1,by-W*0.06,cx+W*0.26,by);
-            ctx.lineTo(cx+W*0.28,H); ctx.closePath(); ctx.fill();
-            ctx.fillStyle='#2a2a2a';
-            ctx.beginPath();
-            if(ctx.roundRect) ctx.roundRect(cx-W*0.1,by+W*0.06,W*0.2,W*0.1,6);
-            else { ctx.rect(cx-W*0.1,by+W*0.06,W*0.2,W*0.1); }
-            ctx.fill();
-            ctx.restore();
-          }
-        },
-        { id: 'suit', name: 'Suit',
-          draw(ctx, W, H) {
-            const cx=W/2, by=H*0.72;
-            ctx.save(); ctx.fillStyle='#1a1a2e';
-            ctx.beginPath();
-            ctx.moveTo(cx-W*0.28,H); ctx.lineTo(cx-W*0.24,by);
-            ctx.lineTo(cx-W*0.06,by+W*0.04); ctx.lineTo(cx,by+W*0.06);
-            ctx.lineTo(cx+W*0.06,by+W*0.04); ctx.lineTo(cx+W*0.24,by);
-            ctx.lineTo(cx+W*0.28,H); ctx.closePath(); ctx.fill();
-            ctx.fillStyle='#252540';
-            [[cx-W*0.06,cx-W*0.12,cx-W*0.08],[cx+W*0.06,cx+W*0.12,cx+W*0.08]].forEach(([x0,x1,x2])=>{
-              ctx.beginPath();
-              ctx.moveTo(x0,by+W*0.04); ctx.lineTo(x1,by+W*0.02); ctx.lineTo(x2,by+W*0.14);
-              ctx.closePath(); ctx.fill();
-            });
-            ctx.fillStyle='#f5c842';
-            ctx.beginPath();
-            ctx.moveTo(cx,by+W*0.04); ctx.lineTo(cx-W*0.025,by+W*0.1);
-            ctx.lineTo(cx,by+W*0.16); ctx.lineTo(cx+W*0.025,by+W*0.1);
-            ctx.closePath(); ctx.fill();
-            ctx.restore();
-          }
-        },
-        { id: 'tshirt', name: 'T-Shirt',
-          draw(ctx, W, H) {
-            const cx=W/2, by=H*0.72;
-            ctx.save(); ctx.fillStyle='#f5c842';
-            ctx.beginPath();
-            ctx.moveTo(cx-W*0.28,H); ctx.lineTo(cx-W*0.26,by);
-            ctx.lineTo(cx,by-W*0.05); ctx.lineTo(cx+W*0.26,by);
-            ctx.lineTo(cx+W*0.28,H); ctx.closePath(); ctx.fill();
-            ctx.fillStyle='#0e0e0e';
-            ctx.font=`bold ${W*0.07}px 'Bebas Neue',sans-serif`;
-            ctx.textAlign='center'; ctx.textBaseline='middle';
-            ctx.fillText('DICHI', cx, by+W*0.1);
-            ctx.restore();
-          }
-        },
-        { id: 'jersey', name: 'Jersey',
-          draw(ctx, W, H) {
-            const cx=W/2, by=H*0.72;
-            ctx.save(); ctx.fillStyle='#4f9eff';
-            ctx.beginPath();
-            ctx.moveTo(cx-W*0.28,H); ctx.lineTo(cx-W*0.26,by);
-            ctx.lineTo(cx,by-W*0.05); ctx.lineTo(cx+W*0.26,by);
-            ctx.lineTo(cx+W*0.28,H); ctx.closePath(); ctx.fill();
-            ctx.fillStyle='#fff'; ctx.font=`bold ${W*0.14}px 'Bebas Neue',sans-serif`;
-            ctx.textAlign='center'; ctx.textBaseline='middle';
-            ctx.fillText('01', cx, by+W*0.14);
-            ctx.restore();
-          }
-        },
-        { id: 'robe', name: 'Robe',
-          draw(ctx, W, H) {
-            const cx=W/2, by=H*0.72;
-            ctx.save(); ctx.fillStyle='#9945FF';
-            ctx.beginPath();
-            ctx.moveTo(cx-W*0.3,H); ctx.lineTo(cx-W*0.26,by);
-            ctx.lineTo(cx-W*0.04,by-W*0.02); ctx.lineTo(cx,by+W*0.06);
-            ctx.lineTo(cx+W*0.04,by-W*0.02); ctx.lineTo(cx+W*0.26,by);
-            ctx.lineTo(cx+W*0.3,H); ctx.closePath(); ctx.fill();
-            ctx.strokeStyle='#f5c842'; ctx.lineWidth=3;
-            ctx.beginPath();
-            ctx.moveTo(cx-W*0.26,by); ctx.lineTo(cx-W*0.04,by-W*0.02);
-            ctx.lineTo(cx,by+W*0.06); ctx.lineTo(cx+W*0.04,by-W*0.02);
-            ctx.lineTo(cx+W*0.26,by); ctx.stroke();
-            ctx.restore();
-          }
-        },
-        { id: 'chain', name: 'Chain Only',
-          draw(ctx, W, H) {
-            const cx=W/2, ny=H*0.62;
-            ctx.save(); ctx.strokeStyle='#f5c842'; ctx.lineWidth=4;
-            ctx.shadowColor='#f5c842'; ctx.shadowBlur=8;
-            ctx.beginPath(); ctx.arc(cx,ny+W*0.08,W*0.16,Math.PI*0.15,Math.PI*0.85); ctx.stroke();
-            ctx.fillStyle='#f5c842';
-            ctx.beginPath(); ctx.arc(cx,ny+W*0.24,W*0.03,0,Math.PI*2); ctx.fill();
-            ctx.restore();
-          }
-        },
+        { id: null,     name: 'None',        none: true },
+        { id: 'hoodie', name: 'Hoodie',      file: 'hoodie.webp' },
+        { id: 'suit',   name: 'Suit',        file: 'suit.webp' },
+        { id: 'tshirt', name: 'T-Shirt',     file: 'tshirt.webp' },
+        { id: 'jersey', name: 'Jersey',      file: 'jersey.webp' },
+        { id: 'robe',   name: 'Robe',        file: 'robe.webp' },
+        { id: 'chain',  name: 'Chain Only',  file: 'chain.webp' },
       ],
-
       mouth: [
-        { id: null, name: 'None', none: true },
-        { id: 'smile', name: 'Smile',
-          draw(ctx, W, H) {
-            const cx=W/2, my=H*0.58;
-            ctx.save(); ctx.strokeStyle='#fff'; ctx.lineWidth=4; ctx.lineCap='round';
-            ctx.beginPath(); ctx.arc(cx,my-W*0.03,W*0.07,0.2,Math.PI-0.2); ctx.stroke();
-            ctx.restore();
-          }
-        },
-        { id: 'tongue', name: 'Tongue',
-          draw(ctx, W, H) {
-            const cx=W/2, my=H*0.57;
-            ctx.save(); ctx.strokeStyle='#fff'; ctx.lineWidth=4; ctx.lineCap='round';
-            ctx.beginPath(); ctx.arc(cx,my-W*0.02,W*0.065,0.2,Math.PI-0.2); ctx.stroke();
-            ctx.fillStyle='#ff6eb4';
-            ctx.beginPath(); ctx.ellipse(cx,my+W*0.04,W*0.04,W*0.055,0,0,Math.PI*2); ctx.fill();
-            ctx.restore();
-          }
-        },
-        { id: 'grin', name: 'Big Grin',
-          draw(ctx, W, H) {
-            const cx=W/2, my=H*0.57;
-            ctx.save(); ctx.fillStyle='#fff';
-            ctx.beginPath(); ctx.arc(cx,my-W*0.02,W*0.08,0.15,Math.PI-0.15); ctx.fill();
-            ctx.fillStyle='#222';
-            ctx.beginPath(); ctx.arc(cx,my-W*0.02,W*0.065,0.3,Math.PI-0.3); ctx.fill();
-            ctx.restore();
-          }
-        },
-        { id: 'cig', name: 'Cigarette',
-          draw(ctx, W, H) {
-            const cx=W/2, my=H*0.59;
-            ctx.save(); ctx.strokeStyle='#fff'; ctx.lineWidth=3; ctx.lineCap='round';
-            ctx.beginPath(); ctx.arc(cx-W*0.04,my-W*0.02,W*0.055,0.3,Math.PI-0.1); ctx.stroke();
-            ctx.fillStyle='#f0e0cc';
-            ctx.beginPath(); ctx.rect(cx+W*0.04,my-W*0.015,W*0.1,W*0.022); ctx.fill();
-            ctx.fillStyle='#ff6b35';
-            ctx.beginPath(); ctx.rect(cx+W*0.14,my-W*0.015,W*0.018,W*0.022); ctx.fill();
-            ctx.restore();
-          }
-        },
-        { id: 'dollar', name: '$ Mouth',
-          draw(ctx, W, H) {
-            const cx=W/2, my=H*0.585;
-            ctx.save(); ctx.strokeStyle='#fff'; ctx.lineWidth=3; ctx.lineCap='round';
-            ctx.beginPath(); ctx.arc(cx,my-W*0.02,W*0.06,0.2,Math.PI-0.2); ctx.stroke();
-            ctx.fillStyle='#14F195';
-            ctx.font=`bold ${W*0.1}px 'Bebas Neue',sans-serif`;
-            ctx.textAlign='left'; ctx.textBaseline='middle';
-            ctx.shadowColor='#14F195'; ctx.shadowBlur=8;
-            ctx.fillText('$', cx+W*0.08, my-W*0.01);
-            ctx.restore();
-          }
-        },
+        { id: null,     name: 'None',       none: true },
+        { id: 'smile',  name: 'Smile',      file: 'smile.webp' },
+        { id: 'tongue', name: 'Tongue',     file: 'tongue.webp' },
+        { id: 'grin',   name: 'Big Grin',   file: 'grin.webp' },
+        { id: 'cig',    name: 'Cigarette',  file: 'cig.webp' },
+        { id: 'dollar', name: '$ Mouth',    file: 'dollar.webp' },
       ],
-
       accessories: [
-        { id: null, name: 'None', none: true },
-        { id: 'gold_chain', name: 'Gold Chain',
-          draw(ctx, W, H) {
-            const cx=W/2, ny=H*0.6;
-            ctx.save(); ctx.strokeStyle='#f5c842'; ctx.lineWidth=5;
-            ctx.shadowColor='#f5c842'; ctx.shadowBlur=10;
-            ctx.beginPath(); ctx.arc(cx,ny+W*0.05,W*0.18,Math.PI*0.2,Math.PI*0.8); ctx.stroke();
-            ctx.fillStyle='#f5c842';
-            ctx.font=`bold ${W*0.07}px 'Bebas Neue',sans-serif`;
-            ctx.textAlign='center'; ctx.textBaseline='middle';
-            ctx.fillText('D', cx, ny+W*0.235);
-            ctx.restore();
-          }
-        },
-        { id: 'monocle', name: 'Monocle',
-          draw(ctx, W, H) {
-            const cx=W/2, ey=H*0.38;
-            ctx.save(); ctx.strokeStyle='#f5c842'; ctx.lineWidth=3;
-            ctx.shadowColor='#f5c842'; ctx.shadowBlur=6;
-            ctx.beginPath(); ctx.arc(cx+W*0.13,ey,W*0.07,0,Math.PI*2); ctx.stroke();
-            ctx.strokeStyle='#d4a017'; ctx.lineWidth=1.5;
-            ctx.beginPath(); ctx.moveTo(cx+W*0.19,ey+W*0.04); ctx.lineTo(cx+W*0.22,ey+W*0.12); ctx.stroke();
-            ctx.restore();
-          }
-        },
-        { id: 'earring', name: 'Earring',
-          draw(ctx, W, H) {
-            const cx=W/2, ey=H*0.42;
-            ctx.save(); ctx.strokeStyle='#f5c842'; ctx.lineWidth=2.5;
-            ctx.shadowColor='#f5c842'; ctx.shadowBlur=6;
-            ctx.beginPath(); ctx.arc(cx-W*0.22,ey,W*0.025,0,Math.PI*2); ctx.stroke();
-            ctx.restore();
-          }
-        },
-        { id: 'bowtie', name: 'Bow Tie',
-          draw(ctx, W, H) {
-            const cx=W/2, ny=H*0.67;
-            ctx.save(); ctx.fillStyle='#ff6b35'; ctx.strokeStyle='#cc4a1a'; ctx.lineWidth=1.5;
-            [-1,1].forEach(s => {
-              ctx.beginPath(); ctx.moveTo(cx,ny); ctx.lineTo(cx+s*W*0.09,ny-W*0.03);
-              ctx.lineTo(cx+s*W*0.09,ny+W*0.03); ctx.closePath(); ctx.fill(); ctx.stroke();
-            });
-            ctx.fillStyle='#cc4a1a';
-            ctx.beginPath(); ctx.arc(cx,ny,W*0.016,0,Math.PI*2); ctx.fill();
-            ctx.restore();
-          }
-        },
-        { id: 'pipe', name: 'Pipe',
-          draw(ctx, W, H) {
-            const cx=W/2, my=H*0.6;
-            ctx.save(); ctx.fillStyle='#5C3D1E'; ctx.strokeStyle='#3d2610'; ctx.lineWidth=1.5;
-            ctx.beginPath(); ctx.rect(cx+W*0.04,my-W*0.01,W*0.14,W*0.02); ctx.fill(); ctx.stroke();
-            ctx.beginPath(); ctx.ellipse(cx+W*0.18,my-W*0.025,W*0.025,W*0.035,0,0,Math.PI*2);
-            ctx.fill(); ctx.stroke();
-            ctx.restore();
-          }
-        },
-        { id: 'wings', name: 'Wings',
-          draw(ctx, W, H) {
-            const cx=W/2, wy=H*0.5;
-            ctx.save(); ctx.fillStyle='rgba(255,255,255,0.12)'; ctx.strokeStyle='rgba(255,255,255,0.4)'; ctx.lineWidth=2;
-            [-1,1].forEach(side => {
-              ctx.save(); ctx.scale(side,1);
-              ctx.beginPath();
-              ctx.moveTo(cx,wy);
-              ctx.bezierCurveTo(cx+W*0.15,wy-W*0.1,cx+W*0.35,wy-W*0.15,cx+W*0.32,wy+W*0.08);
-              ctx.bezierCurveTo(cx+W*0.28,wy+W*0.2,cx+W*0.1,wy+W*0.15,cx,wy);
-              ctx.fill(); ctx.stroke(); ctx.restore();
-            });
-            ctx.restore();
-          }
-        },
+        { id: null,         name: 'None',       none: true },
+        { id: 'gold_chain', name: 'Gold Chain', file: 'gold_chain.webp' },
+        { id: 'monocle',    name: 'Monocle',    file: 'monocle.webp' },
+        { id: 'earring',    name: 'Earring',    file: 'earring.webp' },
+        { id: 'bowtie',     name: 'Bow Tie',    file: 'bowtie.webp' },
+        { id: 'pipe',       name: 'Pipe',       file: 'pipe.webp' },
+        { id: 'wings',      name: 'Wings',      file: 'wings.webp' },
       ],
     };
 
-    /* ── STATE ──────────────────────────────── */
-    let dogImg = null;
+    // ─────────────────────────────────────────────────────
+    // IMAGE CACHE — load once, reuse forever
+    // ─────────────────────────────────────────────────────
+    const imgCache = {};
+
+    function loadImg(src) {
+      return new Promise((resolve) => {
+        if (imgCache[src] !== undefined) { resolve(imgCache[src]); return; }
+        const img = new Image();
+        img.onload  = () => { imgCache[src] = img;  resolve(img); };
+        img.onerror = () => { imgCache[src] = null; resolve(null); };
+        img.src = src;
+      });
+    }
+
+    // Preload all trait webp files in background
+    function preloadAll() {
+      Object.values(TRAITS).forEach(list =>
+        list.forEach(t => { if (t.file) loadImg(TRAITS_FOLDER + t.file); })
+      );
+    }
+
+    // ─────────────────────────────────────────────────────
+    // STATE
+    // ─────────────────────────────────────────────────────
+    let mascotImg = null; // holds the loaded logo.jpg
     let activeCat = 'background';
-    let selected = {
+    let selected  = {
       background: 'bg_yellow',
       eyes: null, hat: null, clothing: null, mouth: null, accessories: null,
     };
 
-    /* ── CATEGORY SWITCH ─────────────────────── */
+    // ─────────────────────────────────────────────────────
+    // LOAD MASCOT (logo.jpg) on startup
+    // ─────────────────────────────────────────────────────
+    async function loadMascot() {
+      const img = await loadImg(BASE_IMAGE);
+      if (img) {
+        mascotImg = img;
+      } else {
+        console.warn('logo.jpg not found — make sure it is in the same folder as index.html');
+      }
+      // Hide spinner once loaded (or failed)
+      document.getElementById('canvasLoading').classList.add('hidden');
+      renderCanvas();
+    }
+
+    // ─────────────────────────────────────────────────────
+    // CATEGORY SWITCH
+    // ─────────────────────────────────────────────────────
     function selectCat(cat) {
       activeCat = cat;
-      document.querySelectorAll('.cat-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
-      document.getElementById('rightHead').textContent = '// ' + cat.charAt(0).toUpperCase() + cat.slice(1);
+      document.querySelectorAll('.cat-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.cat === cat)
+      );
+      document.getElementById('rightHead').textContent =
+        '// ' + cat.charAt(0).toUpperCase() + cat.slice(1);
       renderOptions();
     }
 
-    /* ── RENDER TRAIT OPTIONS ────────────────── */
+    // ─────────────────────────────────────────────────────
+    // RENDER TRAIT OPTIONS (right panel)
+    // ─────────────────────────────────────────────────────
     function renderOptions() {
       const wrap = document.getElementById('traitOptions');
       wrap.innerHTML = '';
 
+      // Backgrounds: colour swatches
       if (activeCat === 'background') {
         const grid = document.createElement('div');
         grid.className = 'bg-grid';
@@ -1113,13 +645,17 @@
           el.className = 'bg-swatch' + (selected.background === bg.id ? ' selected' : '');
           el.style.background = bg.color;
           el.title = bg.name;
-          el.onclick = () => { selected.background = bg.id; renderCanvas(); renderOptions(); updateChips(); };
+          el.onclick = () => {
+            selected.background = bg.id;
+            renderCanvas(); renderOptions(); updateChips();
+          };
           grid.appendChild(el);
         });
         wrap.appendChild(grid);
         return;
       }
 
+      // All other categories: webp thumbnails
       const list = TRAITS[activeCat] || [];
       const grid = document.createElement('div');
       grid.className = 'trait-grid';
@@ -1127,20 +663,31 @@
       list.forEach(trait => {
         const isSelected = selected[activeCat] === (trait.none ? null : trait.id);
         const opt = document.createElement('div');
-        opt.className = 'trait-opt' + (trait.none ? ' none-opt' : '') + (isSelected ? ' selected' : '');
+        opt.className = 'trait-opt'
+          + (trait.none  ? ' none-opt' : '')
+          + (isSelected  ? ' selected' : '');
 
-        // Thumbnail
         const thumb = document.createElement('div');
         thumb.className = 'trait-thumb';
+
         if (trait.none) {
-          thumb.innerHTML = '<span style="font-size:1.3rem;opacity:0.3">✕</span>';
+          thumb.innerHTML = '<span style="font-size:1.6rem;opacity:0.25">✕</span>';
         } else {
-          const tc = document.createElement('canvas');
-          tc.width = 52; tc.height = 52;
-          const tctx = tc.getContext('2d');
-          tctx.fillStyle = '#2a2a2a'; tctx.fillRect(0,0,52,52);
-          try { trait.draw(tctx, 52, 52); } catch(e) {}
-          thumb.appendChild(tc);
+          const shimmer = document.createElement('div');
+          shimmer.className = 'thumb-loading';
+          thumb.appendChild(shimmer);
+
+          loadImg(TRAITS_FOLDER + trait.file).then(img => {
+            shimmer.remove();
+            if (img) {
+              const el = document.createElement('img');
+              el.src = img.src;
+              el.alt = trait.name;
+              thumb.appendChild(el);
+            } else {
+              thumb.innerHTML = '<span style="font-size:1.1rem;opacity:0.2;font-family:DM Mono,monospace">?</span>';
+            }
+          });
         }
 
         const name = document.createElement('div');
@@ -1149,11 +696,13 @@
 
         if (isSelected) {
           const badge = document.createElement('div');
-          badge.className = 'sel-badge'; badge.textContent = '✓';
+          badge.className = 'sel-badge';
+          badge.textContent = '✓';
           opt.appendChild(badge);
         }
 
-        opt.appendChild(thumb); opt.appendChild(name);
+        opt.appendChild(thumb);
+        opt.appendChild(name);
         opt.onclick = () => {
           selected[activeCat] = trait.none ? null : trait.id;
           renderCanvas(); renderOptions(); updateChips();
@@ -1164,113 +713,137 @@
       wrap.appendChild(grid);
     }
 
-    /* ── CHIPS ───────────────────────────────── */
+    // ─────────────────────────────────────────────────────
+    // CHIPS
+    // ─────────────────────────────────────────────────────
     function updateChips() {
       const row = document.getElementById('chipsRow');
       row.innerHTML = '';
-      const icons = { background:'🎨', eyes:'👀', hat:'🧢', clothing:'👕', mouth:'😶', accessories:'✨' };
+      const icons = {
+        background:'🎨', eyes:'👀', hat:'🧢',
+        clothing:'👕', mouth:'😶', accessories:'✨',
+      };
       Object.entries(selected).forEach(([cat, id]) => {
         if (!id || cat === 'background') return;
-        const list = TRAITS[cat] || [];
-        const t = list.find(x => x.id === id);
+        const t = (TRAITS[cat] || []).find(x => x.id === id);
         if (!t) return;
         const chip = document.createElement('div');
         chip.className = 'chip';
-        chip.innerHTML = `<span>${icons[cat]}</span>${t.name}<button class="chip-remove" title="Remove">✕</button>`;
+        chip.innerHTML = `<span>${icons[cat]}</span>${t.name}<button class="chip-remove">✕</button>`;
         chip.querySelector('.chip-remove').onclick = () => {
-          selected[cat] = null; renderCanvas(); updateChips(); renderOptions();
+          selected[cat] = null;
+          renderCanvas(); updateChips(); renderOptions();
         };
         row.appendChild(chip);
       });
     }
 
-    /* ── CANVAS RENDER ───────────────────────── */
-    function renderCanvas() {
+    // ─────────────────────────────────────────────────────
+    // CANVAS RENDER
+    // Layer order:
+    //   1. Background colour
+    //   2. logo.jpg (the Dichi mascot — always the same)
+    //   3. Traits in z-order: clothing → accessories → eyes → mouth → hat
+    // ─────────────────────────────────────────────────────
+    async function renderCanvas() {
       const canvas = document.getElementById('pfpCanvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       const W = canvas.width, H = canvas.height;
       ctx.clearRect(0, 0, W, H);
 
-      // 1. Background
+      // 1 — Background colour + vignette
       const bg = BACKGROUNDS.find(b => b.id === selected.background);
       if (bg) {
         ctx.fillStyle = bg.color;
         ctx.fillRect(0, 0, W, H);
-        const vg = ctx.createRadialGradient(W/2,H/2,W*0.25,W/2,H/2,W*0.72);
-        vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.22)');
-        ctx.fillStyle = vg; ctx.fillRect(0,0,W,H);
+        const vg = ctx.createRadialGradient(W/2, H/2, W*0.25, W/2, H/2, W*0.72);
+        vg.addColorStop(0, 'rgba(0,0,0,0)');
+        vg.addColorStop(1, 'rgba(0,0,0,0.2)');
+        ctx.fillStyle = vg;
+        ctx.fillRect(0, 0, W, H);
       }
 
-      // 2. Dog image
-      if (dogImg) {
-        const iw=dogImg.naturalWidth, ih=dogImg.naturalHeight;
-        const scale = Math.max(W/iw, H/ih);
-        const sw=iw*scale, sh=ih*scale;
-        ctx.drawImage(dogImg, (W-sw)/2, (H-sh)/2, sw, sh);
+      // 2 — Mascot: logo.jpg, cover-fit centred
+      if (mascotImg) {
+        const iw = mascotImg.naturalWidth, ih = mascotImg.naturalHeight;
+        const scale = Math.max(W / iw, H / ih);
+        const sw = iw * scale, sh = ih * scale;
+        ctx.drawImage(mascotImg, (W - sw) / 2, (H - sh) / 2, sw, sh);
       } else {
-        ctx.save(); ctx.font=`${W*0.3}px serif`;
-        ctx.textAlign='center'; ctx.textBaseline='middle';
-        ctx.globalAlpha=0.07; ctx.fillStyle='#fff';
-        ctx.fillText('🐶', W/2, H/2); ctx.restore();
+        // logo.jpg not found yet — show placeholder text
+        ctx.save();
+        ctx.fillStyle = 'rgba(255,255,255,0.08)';
+        ctx.font = `bold ${W * 0.08}px 'DM Mono', monospace`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('logo.jpg missing', W / 2, H / 2);
+        ctx.restore();
       }
 
-      // 3. Traits (in z-order)
-      ['clothing','accessories','eyes','mouth','hat'].forEach(cat => {
+      // 3 — Trait WebP layers in z-order
+      const drawOrder = ['clothing', 'accessories', 'eyes', 'mouth', 'hat'];
+      for (const cat of drawOrder) {
         const id = selected[cat];
-        if (!id) return;
-        const trait = (TRAITS[cat]||[]).find(t => t.id === id);
-        if (trait && trait.draw) try { trait.draw(ctx, W, H); } catch(e) {}
-      });
+        if (!id) continue;
+        const trait = (TRAITS[cat] || []).find(t => t.id === id);
+        if (!trait || !trait.file) continue;
+        const img = await loadImg(TRAITS_FOLDER + trait.file);
+        if (img) {
+          // Trait webps should be same canvas size with transparent background
+          ctx.drawImage(img, 0, 0, W, H);
+        }
+      }
     }
 
-    /* ── UPLOAD DOG ──────────────────────────── */
-    function loadDog(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const img = new Image();
-      img.onload = () => {
-        dogImg = img;
-        document.getElementById('uploadPlaceholder').style.display = 'none';
-        document.getElementById('canvasWrap').style.display = 'block';
-        renderCanvas();
-      };
-      img.src = URL.createObjectURL(file);
-    }
-
-    /* ── RANDOMIZE ───────────────────────────── */
+    // ─────────────────────────────────────────────────────
+    // RANDOMIZE
+    // ─────────────────────────────────────────────────────
     function randomize() {
-      selected.background = BACKGROUNDS[Math.floor(Math.random()*BACKGROUNDS.length)].id;
-      ['eyes','hat','clothing','mouth','accessories'].forEach(cat => {
-        const pool = (TRAITS[cat]||[]).filter(t => !t.none);
-        selected[cat] = Math.random() > 0.35 ? pool[Math.floor(Math.random()*pool.length)].id : null;
+      selected.background = BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)].id;
+      ['eyes', 'hat', 'clothing', 'mouth', 'accessories'].forEach(cat => {
+        const pool = (TRAITS[cat] || []).filter(t => !t.none);
+        selected[cat] = Math.random() > 0.35
+          ? pool[Math.floor(Math.random() * pool.length)].id
+          : null;
       });
       renderCanvas(); renderOptions(); updateChips();
     }
 
-    /* ── CLEAR ───────────────────────────────── */
+    // ─────────────────────────────────────────────────────
+    // CLEAR ALL
+    // ─────────────────────────────────────────────────────
     function clearAll() {
-      selected = { background:'bg_yellow', eyes:null, hat:null, clothing:null, mouth:null, accessories:null };
+      selected = {
+        background: 'bg_yellow',
+        eyes: null, hat: null, clothing: null, mouth: null, accessories: null,
+      };
       renderCanvas(); renderOptions(); updateChips();
     }
 
-    /* ── DOWNLOAD ────────────────────────────── */
+    // ─────────────────────────────────────────────────────
+    // DOWNLOAD PNG (circle-cropped, 400×400)
+    // ─────────────────────────────────────────────────────
     function downloadPFP() {
       const src = document.getElementById('pfpCanvas');
       const out = document.createElement('canvas');
       out.width = 400; out.height = 400;
       const octx = out.getContext('2d');
-      octx.beginPath(); octx.arc(200,200,200,0,Math.PI*2); octx.clip();
-      octx.drawImage(src,0,0,400,400);
+      octx.beginPath();
+      octx.arc(200, 200, 200, 0, Math.PI * 2);
+      octx.clip();
+      octx.drawImage(src, 0, 0, 400, 400);
       const a = document.createElement('a');
       a.download = `dichi-pfp-${Date.now()}.png`;
       a.href = out.toDataURL('image/png');
       a.click();
     }
 
-    /* ── INIT ────────────────────────────────── */
-    renderOptions();
-    renderCanvas();
+    // ─────────────────────────────────────────────────────
+    // INIT
+    // ─────────────────────────────────────────────────────
+    preloadAll();     // preload all trait webps in background
+    renderOptions();  // build the right panel UI
+    loadMascot();     // load logo.jpg and draw the first frame
 
   </script>
 </body>
