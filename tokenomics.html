@@ -4,30 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DICHI — Tokenomics</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <style>
-    /* ============================================================
-       VARIABLES — must match index.html
-    ============================================================ */
     :root {
-      --bg:           #0e0e0e;
-      --surface:      #171717;
-      --card:         #1e1e1e;
-      --border:       #2c2c2c;
-      --border-light: #383838;
-      --text:         #f0f0f0;
-      --muted:        #707070;
-      --accent:       #f5c842;
-      --accent2:      #ff6b35;
-      --green:        #14F195;
-      --purple:       #9945FF;
-      --white:        #ffffff;
-      --radius:       14px;
+      --bg:        #f0e8d5;
+      --surface:   #e8dfc8;
+      --card:      #ede4cf;
+      --card2:     #e2d9c2;
+      --border:    #d4c9ae;
+      --border-lg: #c8bc9e;
+      --text:      #1a1408;
+      --text2:     #3d3420;
+      --muted:     #8a7a5a;
+      --accent:    #e8a000;
+      --accent2:   #d45000;
+      --green:     #00a86b;
+      --purple:    #7730d4;
+      --white:     #ffffff;
+      --radius:    14px;
+      --radius-lg: 22px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    html { scroll-behavior: smooth; }
     body {
       background: var(--bg);
       color: var(--text);
@@ -37,693 +37,838 @@
     }
 
     body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      background-size: 180px 180px;
-      pointer-events: none; z-index: 0; opacity: 0.5;
+      content: ''; position: fixed; inset: 0; z-index: 1000; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      background-size: 180px 180px; opacity: 0.7;
     }
 
     /* ============================================================
-       NAVBAR (identical across all pages)
+       NAVBAR
     ============================================================ */
     nav {
-      position: sticky; top: 0; z-index: 100;
+      position: sticky; top: 0; z-index: 500;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px; height: 68px;
-      background: rgba(14,14,14,0.85);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
+      padding: 0 56px; height: 68px;
+      background: rgba(240,232,213,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 2px solid var(--border);
+      transition: background 0.3s;
     }
+    nav.scrolled { background: rgba(240,232,213,0.98); }
     .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.9rem; letter-spacing: 0.1em;
-      color: var(--white); text-decoration: none;
+      font-family: 'Anton', sans-serif; font-size: 2rem; letter-spacing: 0.08em;
+      color: var(--text); text-decoration: none;
       display: flex; align-items: center; gap: 10px;
     }
-    .nav-logo span {
-      font-family: 'DM Mono', monospace; font-size: 0.6rem;
-      color: var(--accent); border: 1px solid rgba(245,200,66,0.4);
-      padding: 3px 8px; border-radius: 20px;
-      letter-spacing: 0.12em; font-weight: 500;
+    .nav-blink {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 8px var(--accent);
+      animation: blink 2s ease-in-out infinite;
     }
-    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+    .nav-pill {
+      font-family: 'DM Mono', monospace; font-size: 0.58rem;
+      color: var(--accent); border: 1.5px solid var(--accent);
+      padding: 3px 8px; border-radius: 20px; letter-spacing: 0.12em;
+      background: rgba(232,160,0,0.08);
+    }
+    .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
     .nav-links a {
-      font-size: 0.85rem; font-weight: 500; color: var(--muted);
-      text-decoration: none; padding: 8px 16px; border-radius: 8px;
-      transition: color 0.15s, background 0.15s; letter-spacing: 0.02em;
+      font-size: 0.82rem; font-weight: 600; color: var(--muted);
+      text-decoration: none; padding: 8px 14px; border-radius: 8px;
+      transition: color 0.15s, background 0.15s;
     }
-    .nav-links a:hover    { color: var(--text); background: var(--card); }
-    .nav-links a.active   { color: var(--accent); }
+    .nav-links a:hover  { color: var(--text); background: var(--surface); }
+    .nav-links a.active { color: var(--accent); }
     .nav-cta {
-      padding: 9px 20px; background: var(--accent); color: #0e0e0e !important;
-      border-radius: 8px; font-weight: 700 !important; font-size: 0.82rem !important;
+      padding: 10px 22px; background: var(--text); color: var(--bg);
+      border-radius: 9px; font-weight: 700; font-size: 0.82rem;
+      text-decoration: none; font-family: 'DM Sans', sans-serif;
+      box-shadow: 3px 3px 0 var(--border); transition: all 0.15s;
     }
-    .nav-cta:hover { opacity: 0.85; background: var(--accent) !important; }
+    .nav-cta:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--accent); }
 
     /* ============================================================
        PAGE HERO
     ============================================================ */
     .page-hero {
-      position: relative; z-index: 1;
-      padding: 72px 48px 56px;
-      border-bottom: 1px solid var(--border);
+      position: relative; z-index: 2;
+      padding: 80px 56px 64px;
+      border-bottom: 2px solid var(--border);
+    }
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto;
       display: flex; align-items: flex-end; justify-content: space-between;
-      flex-wrap: wrap; gap: 24px;
+      flex-wrap: wrap; gap: 32px;
     }
-
-    /* Accent glow blob */
-    .page-hero::before {
-      content: '';
-      position: absolute; top: -60px; left: -80px;
-      width: 500px; height: 500px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(245,200,66,0.07) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .page-eyebrow {
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
       font-family: 'DM Mono', monospace; font-size: 0.68rem;
-      color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase;
-      margin-bottom: 12px;
+      color: var(--accent2); letter-spacing: 0.16em; text-transform: uppercase;
+      border: 2px solid var(--accent2); padding: 6px 14px;
+      border-radius: 4px; margin-bottom: 18px;
+      background: rgba(212,80,0,0.06);
+      transform: rotate(-1deg); display: inline-flex;
     }
+    .eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); animation: blink 1.5s infinite; }
     .page-hero h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3.5rem, 8vw, 6.5rem);
-      letter-spacing: 0.04em; line-height: 0.95; color: var(--white);
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(4.5rem, 10vw, 8.5rem);
+      letter-spacing: 0.02em; line-height: 0.88; color: var(--text);
     }
     .page-hero h1 em { font-style: normal; color: var(--accent); }
-
-    .hero-stats {
-      display: flex; gap: 32px; flex-wrap: wrap;
-    }
-    .stat-item { text-align: right; }
-    .stat-val {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem; letter-spacing: 0.05em; color: var(--white);
-    }
-    .stat-val em { font-style: normal; color: var(--green); }
-    .stat-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem; color: var(--muted); letter-spacing: 0.12em;
-      text-transform: uppercase; margin-top: 2px;
+    .page-hero h1 .stroke {
+      -webkit-text-stroke: 3px var(--text); color: transparent; display: block;
     }
 
-    /* ============================================================
-       LAYOUT CONTAINER
-    ============================================================ */
-    .container {
-      position: relative; z-index: 1;
-      max-width: 1140px; margin: 0 auto;
-      padding: 0 40px;
+    /* Hero stat cards */
+    .hero-stat-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-stat-card {
+      background: var(--card); border: 2px solid var(--border);
+      border-radius: var(--radius); padding: 16px 20px; min-width: 110px;
+      box-shadow: 3px 3px 0 var(--border); transition: all 0.2s;
     }
-
-    section { padding: 72px 0; border-bottom: 1px solid var(--border); }
-    section:last-of-type { border-bottom: none; }
-
-    .section-label {
-      font-family: 'DM Mono', monospace; font-size: 0.65rem;
-      color: var(--muted); letter-spacing: 0.18em;
-      text-transform: uppercase; margin-bottom: 8px;
-    }
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      letter-spacing: 0.05em; color: var(--white); margin-bottom: 40px;
-    }
-    .section-title em { font-style: normal; color: var(--accent); }
+    .hero-stat-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--accent); border-color: var(--accent); }
+    .hsc-val { font-family: 'Anton', sans-serif; font-size: 1.8rem; letter-spacing: 0.03em; color: var(--text); line-height: 1; }
+    .hsc-val em { font-style: normal; color: var(--accent); }
+    .hsc-val .green { color: var(--green); }
+    .hsc-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; margin-top: 4px; font-weight: 700; }
 
     /* ============================================================
-       SUPPLY CARD — big number
+       TICKER
     ============================================================ */
-    .supply-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 20px; padding: 48px;
+    .ticker-outer {
+      position: relative; z-index: 2; overflow: hidden;
+      border-top: 2px solid var(--text); border-bottom: 2px solid var(--text);
+      background: var(--text); padding: 11px 0;
+    }
+    .ticker-track { display: inline-block; animation: ticker 32s linear infinite; white-space: nowrap; }
+    .ticker-track span { font-family: 'Anton', sans-serif; font-size: 0.78rem; letter-spacing: 0.1em; color: var(--bg); padding: 0 20px; }
+    .ticker-track span.hi  { color: var(--accent); }
+    .ticker-track span.hi2 { color: var(--green); }
+    @keyframes ticker { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+
+    /* ============================================================
+       LAYOUT
+    ============================================================ */
+    .wrap { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 56px; }
+    .divider { height: 2px; background: var(--border); margin: 80px 0; }
+    .s-eyebrow {
+      display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      color: var(--accent2); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; font-weight: 700;
+    }
+    .s-title { font-family: 'Anton', sans-serif; font-size: clamp(2.4rem,5vw,4rem); letter-spacing: 0.02em; color: var(--text); line-height: 1; margin-bottom: 14px; }
+    .s-title em { font-style: normal; color: var(--accent); }
+    .s-sub { font-size: 0.95rem; color: var(--muted); line-height: 1.7; max-width: 560px; font-weight: 500; }
+
+    /* ============================================================
+       BIG SUPPLY CARD
+    ============================================================ */
+    .supply-hero {
+      background: var(--text); border: 2px solid var(--text);
+      border-radius: var(--radius-lg); padding: 56px 48px;
       display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 32px; margin-bottom: 32px;
+      flex-wrap: wrap; gap: 40px; margin-top: 72px;
       position: relative; overflow: hidden;
+      box-shadow: 8px 8px 0 var(--accent);
     }
-    .supply-card::before {
-      content: '';
-      position: absolute; right: -40px; top: -40px;
-      width: 260px; height: 260px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(245,200,66,0.06) 0%, transparent 70%);
-    }
-    .supply-number {
-      font-family: 'Bebas Neue', sans-serif;
+    .supply-big-num {
+      font-family: 'Anton', sans-serif;
       font-size: clamp(3rem, 6vw, 5.5rem);
-      letter-spacing: 0.03em; color: var(--white); line-height: 1;
+      letter-spacing: 0.01em; color: var(--bg); line-height: 1;
     }
-    .supply-number em { font-style: normal; color: var(--accent); }
-    .supply-sub {
-      font-family: 'DM Mono', monospace; font-size: 0.72rem;
-      color: var(--muted); letter-spacing: 0.1em;
-      text-transform: uppercase; margin-top: 8px;
+    .supply-big-num em { font-style: normal; color: var(--accent); }
+    .supply-big-sub { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: rgba(240,232,213,0.5); letter-spacing: 0.14em; text-transform: uppercase; margin-top: 8px; font-weight: 700; }
+
+    .supply-badges { display: flex; flex-direction: column; gap: 10px; }
+    .sbadge {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 18px;
+      background: rgba(240,232,213,0.07);
+      border: 2px solid rgba(240,232,213,0.15);
+      border-radius: var(--radius); transition: border-color 0.2s;
     }
-    .supply-badges { display: flex; flex-direction: column; gap: 12px; }
-    .supply-badge {
-      display: flex; align-items: center; gap: 10px;
-      padding: 12px 18px; background: var(--surface);
-      border: 1px solid var(--border); border-radius: 10px;
-    }
-    .badge-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .badge-text { font-size: 0.82rem; color: var(--text); font-weight: 500; }
-    .badge-text span { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); display: block; margin-top: 1px; }
+    .sbadge:hover { border-color: rgba(232,160,0,0.5); }
+    .sbadge-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+    .sbadge-title { font-size: 0.88rem; font-weight: 700; color: var(--bg); margin-bottom: 3px; }
+    .sbadge-desc  { font-size: 0.75rem; color: rgba(240,232,213,0.55); line-height: 1.5; font-family: 'DM Mono', monospace; }
 
     /* ============================================================
-       DONUT CHART (CSS only)
+       DISTRIBUTION
     ============================================================ */
-    .tokenomics-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
-      align-items: start;
-    }
+    .dist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; padding: 80px 0; }
 
-    .donut-wrap {
-      display: flex; flex-direction: column; align-items: center; gap: 28px;
-    }
+    .donut-side { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    .donut-svg  { width: 260px; height: 260px; filter: drop-shadow(4px 4px 0 var(--border-lg)); }
 
-    .donut-svg { width: 240px; height: 240px; }
-
-    .donut-legend { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+    .donut-legend { width: 100%; display: flex; flex-direction: column; gap: 8px; }
     .legend-row {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 14px;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 11px 16px; background: var(--card); border: 2px solid var(--border);
+      border-radius: 10px; transition: all 0.18s; cursor: default;
+      box-shadow: 2px 2px 0 var(--border);
     }
+    .legend-row:hover { transform: translateX(4px); border-color: var(--border-lg); box-shadow: 4px 4px 0 var(--border-lg); }
     .legend-left { display: flex; align-items: center; gap: 10px; }
-    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-    .legend-name { font-size: 0.85rem; font-weight: 500; }
-    .legend-pct {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem; letter-spacing: 0.05em; color: var(--white);
+    .legend-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; border: 2px solid rgba(0,0,0,0.15); }
+    .legend-name { font-size: 0.85rem; font-weight: 600; color: var(--text2); }
+    .legend-sub  { font-size: 0.68rem; color: var(--muted); font-family: 'DM Mono', monospace; font-weight: 600; }
+    .legend-pct  { font-family: 'Anton', sans-serif; font-size: 1.3rem; letter-spacing: 0.04em; color: var(--text); }
+
+    .dist-cards { display: flex; flex-direction: column; gap: 12px; }
+    .dist-card {
+      background: var(--card); border: 2px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px;
+      transition: all 0.2s; box-shadow: 2px 2px 0 var(--border);
     }
+    .dist-card:hover { transform: translateX(4px); box-shadow: 5px 5px 0 var(--border-lg); border-color: var(--border-lg); }
+    .dist-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+    .dist-card-title { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+    .dist-card-tokens { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); margin-top: 2px; font-weight: 600; }
+    .dist-card-pct { font-family: 'Anton', sans-serif; font-size: 1.6rem; letter-spacing: 0.03em; flex-shrink: 0; }
+    .dist-card-bar-wrap { height: 4px; background: var(--surface); border-radius: 2px; overflow: hidden; margin-bottom: 8px; border: 1px solid var(--border); }
+    .dist-card-bar { height: 100%; border-radius: 2px; transition: width 1.2s ease; }
+    .dist-card-note { font-size: 0.72rem; color: var(--muted); line-height: 1.5; font-family: 'DM Mono', monospace; font-weight: 600; }
 
     /* ============================================================
-       INFO CARDS
+       TOKEN METRICS
     ============================================================ */
-    .info-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
-    .info-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 24px;
-      transition: border-color 0.2s;
-    }
-    .info-card:hover { border-color: var(--border-light); }
+    .metrics-section { padding: 80px 0; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 48px; }
 
-    .info-card-icon {
-      width: 42px; height: 42px; border-radius: 10px;
-      background: var(--surface); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; margin-bottom: 14px;
+    .metric-card {
+      background: var(--card); border: 2px solid var(--border);
+      border-radius: var(--radius-lg); padding: 26px 22px;
+      box-shadow: 3px 3px 0 var(--border); transition: all 0.2s;
+      position: relative; overflow: hidden;
     }
-    .info-card-title {
-      font-family: 'DM Mono', monospace; font-size: 0.65rem;
-      color: var(--muted); letter-spacing: 0.12em;
-      text-transform: uppercase; margin-bottom: 6px;
+    .metric-card:hover { transform: translate(-2px,-2px); border-color: var(--text); box-shadow: 6px 6px 0 var(--accent); }
+
+    .metric-card-wide { grid-column: span 3; }
+    .metric-wide-inner { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+    .mwc-col { padding: 0 28px; border-right: 2px solid var(--border); }
+    .mwc-col:first-child { padding-left: 0; }
+    .mwc-col:last-child  { border-right: none; }
+    .mwc-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
+    .mwc-val { font-family: 'Anton', sans-serif; font-size: 2.4rem; letter-spacing: 0.02em; color: var(--text); line-height: 1; }
+    .mwc-val em { font-style: normal; color: var(--accent); }
+    .mwc-val .green { color: var(--green); }
+    .mwc-sub { font-size: 0.78rem; color: var(--muted); margin-top: 6px; line-height: 1.5; font-weight: 500; }
+
+    .metric-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
+    .metric-val { font-family: 'Anton', sans-serif; font-size: 1.9rem; letter-spacing: 0.02em; color: var(--text); line-height: 1; margin-bottom: 8px; }
+    .metric-val em { font-style: normal; color: var(--accent); }
+    .metric-val .green  { color: var(--green); }
+    .metric-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.6; font-weight: 500; }
+
+    /* ============================================================
+       SECURITY
+    ============================================================ */
+    .security-section { padding: 80px 0; }
+    .security-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 48px; }
+
+    .sec-card {
+      background: var(--card); border: 2px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px 26px;
+      box-shadow: 3px 3px 0 var(--border); transition: all 0.2s;
     }
-    .info-card-val {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem; letter-spacing: 0.04em; color: var(--white);
+    .sec-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--border-lg); border-color: var(--border-lg); }
+
+    .sec-tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      padding: 4px 12px; border-radius: 4px; letter-spacing: 0.08em; font-weight: 700;
+      margin-bottom: 14px; border: 2px solid;
     }
-    .info-card-val em { font-style: normal; color: var(--accent); }
-    .info-card-desc { font-size: 0.78rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+    .tag-green  { background: rgba(0,168,107,0.1);  color: var(--green);  border-color: var(--green); }
+    .tag-yellow { background: rgba(232,160,0,0.1);  color: var(--accent); border-color: var(--accent); }
+    .tag-purple { background: rgba(119,48,212,0.1); color: var(--purple); border-color: var(--purple); }
+    .tag-orange { background: rgba(212,80,0,0.1);   color: var(--accent2);border-color: var(--accent2); }
+    .tag-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: blink 1.5s infinite; }
+
+    .sec-card-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 10px; font-family: 'Anton', sans-serif; letter-spacing: 0.03em; }
+    .sec-card-desc  { font-size: 0.83rem; color: var(--muted); line-height: 1.75; font-weight: 500; }
 
     /* ============================================================
        HOW TO BUY
     ============================================================ */
-    .htb-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 40px; }
+    .htb-section { padding: 80px 0; }
+    .htb-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-top: 48px; }
 
-    .step-card {
-      background: var(--card); border: 1px solid var(--border);
+    .htb-card {
+      background: var(--card); border: 2px solid var(--border);
       border-radius: var(--radius); padding: 24px 20px;
-      position: relative; transition: border-color 0.2s, transform 0.2s;
+      box-shadow: 3px 3px 0 var(--border); transition: all 0.2s;
     }
-    .step-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .htb-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--accent); border-color: var(--accent); }
+    .htb-step-num { font-family: 'Anton', sans-serif; font-size: 3.5rem; letter-spacing: 0.02em; color: var(--border-lg); line-height: 1; margin-bottom: 10px; }
+    .htb-title { font-size: 0.92rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .htb-desc  { font-size: 0.78rem; color: var(--muted); line-height: 1.65; font-weight: 500; }
+    .htb-link  {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 12px; font-family: 'DM Mono', monospace; font-size: 0.72rem;
+      color: var(--accent2); text-decoration: none; font-weight: 700;
+      letter-spacing: 0.05em; transition: gap 0.15s;
+    }
+    .htb-link:hover { gap: 10px; }
 
-    /* connector line between steps */
-    .step-card:not(:last-child)::after {
-      content: '→';
-      position: absolute; right: -14px; top: 50%;
-      transform: translateY(-50%);
-      color: var(--border-light); font-size: 1.1rem; z-index: 2;
-    }
-
-    .step-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3rem; letter-spacing: 0.05em;
-      color: rgba(245,200,66,0.12); line-height: 1;
-      margin-bottom: 8px;
-    }
-    .step-title {
-      font-size: 0.9rem; font-weight: 700; color: var(--text);
-      margin-bottom: 8px;
-    }
-    .step-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
-    .step-link {
-      display: inline-flex; align-items: center; gap: 4px;
-      margin-top: 12px; font-size: 0.75rem; font-weight: 600;
-      color: var(--accent); text-decoration: none;
-      font-family: 'DM Mono', monospace; letter-spacing: 0.05em;
-    }
-    .step-link:hover { text-decoration: underline; }
-
-    /* Contract address box */
     .ca-box {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 24px 28px;
+      margin-top: 36px; background: var(--card); border: 2px solid var(--border);
+      border-radius: var(--radius); padding: 26px 30px;
       display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 16px;
+      flex-wrap: wrap; gap: 16px; box-shadow: 4px 4px 0 var(--border);
+      position: relative; overflow: hidden;
     }
-    .ca-label {
-      font-family: 'DM Mono', monospace; font-size: 0.62rem;
-      color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase;
-      margin-bottom: 6px;
+    .ca-box::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--accent);
     }
-    .ca-addr {
-      font-family: 'DM Mono', monospace; font-size: 0.88rem;
-      color: var(--text); letter-spacing: 0.04em; word-break: break-all;
-    }
-    .ca-addr em { color: var(--accent); font-style: normal; }
+    .ca-lbl  { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
+    .ca-addr { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--text); letter-spacing: 0.04em; word-break: break-all; font-weight: 600; }
+    .ca-addr em { color: var(--accent2); font-style: normal; }
     .btn-copy {
       display: flex; align-items: center; gap: 7px;
-      padding: 10px 18px; background: var(--surface);
-      border: 1px solid var(--border-light); border-radius: 9px;
-      color: var(--text); font-family: 'DM Sans', sans-serif;
-      font-size: 0.8rem; font-weight: 600; cursor: pointer;
-      white-space: nowrap; transition: all 0.15s;
+      padding: 11px 20px; background: var(--text); color: var(--bg);
+      border: 2px solid var(--text); border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 700;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
+      box-shadow: 3px 3px 0 var(--border-lg);
     }
-    .btn-copy:hover { border-color: var(--accent); color: var(--accent); }
-    .btn-copy.copied { border-color: var(--green); color: var(--green); }
+    .btn-copy:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--accent); }
+    .btn-copy.copied { background: var(--green); border-color: var(--green); }
 
-    /* Buy buttons row */
-    .buy-row {
-      display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px;
-    }
-    .btn {
+    .buy-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+    .btn-buy {
       display: inline-flex; align-items: center; gap: 8px;
-      padding: 13px 26px; border-radius: 10px;
-      font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
-      font-weight: 700; cursor: pointer; text-decoration: none;
-      transition: all 0.18s; letter-spacing: 0.02em; border: none;
+      padding: 13px 26px; border-radius: 8px; border: 2px solid var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 700;
+      cursor: pointer; text-decoration: none; transition: all 0.15s;
     }
-    .btn-primary { background: var(--accent); color: #0e0e0e; }
-    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
-    .btn-outline {
-      background: transparent; color: var(--muted);
-      border: 1px solid var(--border-light);
-    }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .bb-primary { background: var(--text); color: var(--bg); box-shadow: 3px 3px 0 var(--accent); }
+    .bb-primary:hover { transform: translate(-1px,-1px); box-shadow: 5px 5px 0 var(--accent); }
+    .bb-outline { background: transparent; color: var(--text); box-shadow: 3px 3px 0 var(--border); }
+    .bb-outline:hover { transform: translate(-1px,-1px); box-shadow: 5px 5px 0 var(--border-lg); }
 
     /* ============================================================
        DISCLAIMER
     ============================================================ */
     .disclaimer {
-      padding: 32px 40px;
-      background: var(--surface); border-top: 1px solid var(--border);
+      margin-top: 72px; padding: 28px 32px;
+      background: var(--card); border: 2px solid var(--border);
+      border-radius: var(--radius); box-shadow: 3px 3px 0 var(--border);
     }
-    .disclaimer p {
-      font-size: 0.72rem; color: var(--muted);
-      line-height: 1.7; max-width: 900px; margin: 0 auto;
-      text-align: center; font-family: 'DM Mono', monospace;
-    }
+    .disclaimer p { font-size: 0.72rem; color: var(--muted); line-height: 1.7; text-align: center; font-family: 'DM Mono', monospace; font-weight: 600; }
 
     /* ============================================================
        FOOTER
     ============================================================ */
-    footer {
-      position: relative; z-index: 1;
-      border-top: 1px solid var(--border);
-      padding: 36px 48px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 16px;
+    footer { position: relative; z-index: 2; border-top: 2px solid var(--border); }
+    .footer-top {
+      max-width: 1200px; margin: 0 auto; padding: 56px 56px 40px;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
     }
-    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.08em; color: var(--white); }
-    .footer-links { display: flex; gap: 24px; list-style: none; }
-    .footer-links a { font-size: 0.8rem; color: var(--muted); text-decoration: none; transition: color 0.15s; }
-    .footer-links a:hover { color: var(--accent); }
-    .footer-copy { font-size: 0.72rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+    .footer-logo { font-family: 'Anton', sans-serif; font-size: 2rem; letter-spacing: 0.06em; color: var(--text); display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .footer-tag  { font-size: 0.84rem; color: var(--muted); line-height: 1.65; max-width: 260px; margin-bottom: 22px; font-weight: 500; }
+    .footer-socials { display: flex; gap: 8px; }
+    .fsb {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--card); border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; text-decoration: none; transition: all 0.15s;
+      cursor: pointer; font-family: 'DM Mono', monospace;
+      color: var(--muted); font-weight: 700; box-shadow: 2px 2px 0 var(--border);
+    }
+    .fsb:hover { background: var(--accent); border-color: var(--accent); color: var(--text); }
+    .footer-col-title { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 16px; font-weight: 700; }
+    .footer-col-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-col-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.15s; font-weight: 500; }
+    .footer-col-links a:hover { color: var(--accent2); }
+    .footer-bottom {
+      max-width: 1200px; margin: 0 auto; padding: 18px 56px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px; border-top: 2px solid var(--border);
+    }
+    .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); }
+    .footer-disc { font-size: 0.68rem; color: var(--muted); max-width: 500px; text-align: right; line-height: 1.5; }
+
+    /* ============================================================
+       REVEAL
+    ============================================================ */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d1{transition-delay:0.1s;} .d2{transition-delay:0.2s;} .d3{transition-delay:0.3s;} .d4{transition-delay:0.4s;}
 
     /* ============================================================
        RESPONSIVE
     ============================================================ */
-    @media (max-width: 900px) {
+    @media (max-width: 1000px) {
       nav { padding: 0 20px; }
-      .nav-links a { font-size: 0.78rem; padding: 7px 10px; }
-      .page-hero { padding: 48px 24px 40px; }
-      .container { padding: 0 20px; }
-      .tokenomics-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .wrap { padding: 0 24px; }
+      .page-hero { padding: 60px 24px 48px; }
+      .hero-inner { flex-direction: column; }
+      .dist-grid { grid-template-columns: 1fr; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .metric-card-wide { grid-column: span 2; }
+      .metric-wide-inner { grid-template-columns: 1fr; gap: 24px; }
+      .mwc-col { padding: 0; border-right: none; border-bottom: 2px solid var(--border); padding-bottom: 20px; }
+      .mwc-col:last-child { border-bottom: none; padding-bottom: 0; }
+      .security-grid { grid-template-columns: 1fr; }
       .htb-steps { grid-template-columns: 1fr 1fr; }
-      .info-cards { grid-template-columns: 1fr 1fr; }
-      .step-card:not(:last-child)::after { display: none; }
-      footer { padding: 24px 20px; }
+      .footer-top { grid-template-columns: 1fr 1fr; padding: 40px 24px; }
+      .footer-bottom { padding: 16px 24px 24px; flex-direction: column; text-align: center; }
+      .footer-disc { text-align: center; }
     }
-    @media (max-width: 560px) {
+    @media (max-width: 600px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+      .metric-card-wide { grid-column: span 1; }
       .htb-steps { grid-template-columns: 1fr; }
-      .info-cards { grid-template-columns: 1fr; }
-      .supply-card { padding: 28px 20px; }
+      .footer-top { grid-template-columns: 1fr; }
+      .supply-hero { padding: 32px 24px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ============================================================
-       NAVBAR
-  ============================================================ -->
-  <nav>
+  <!-- NAVBAR -->
+  <nav id="mainNav">
     <a href="index.html" class="nav-logo">
-      DICHI <span>ON SOLANA</span>
+      <div class="nav-blink"></div>
+      DICHI <span class="nav-pill">ON SOLANA</span>
     </a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="tokenomics.html" class="active">Tokenomics</a></li>
       <li><a href="whitepaper.html">Whitepaper</a></li>
       <li><a href="roadmap.html">Roadmap</a></li>
-      <li><a href="#how-to-buy" class="nav-cta">Buy $DICHI</a></li>
     </ul>
+    <a href="#how-to-buy" class="nav-cta">Buy $DICHI</a>
   </nav>
 
-  <!-- ============================================================
-       PAGE HERO
-  ============================================================ -->
+  <!-- PAGE HERO -->
   <div class="page-hero">
-    <div>
-      <div class="page-eyebrow">// Token Economics</div>
-      <h1>Token<em>omics</em></h1>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <div class="stat-val"><em>0%</em></div>
-        <div class="stat-label">Buy Tax</div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <div class="eyebrow-dot"></div>
+          Token Economics
+        </div>
+        <h1>
+          <span>TOKEN</span>
+          <span class="stroke">OMICS</span>
+          <span>$<em>DICHI</em></span>
+        </h1>
       </div>
-      <div class="stat-item">
-        <div class="stat-val"><em>0%</em></div>
-        <div class="stat-label">Sell Tax</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-val">1B</div>
-        <div class="stat-label">Total Supply</div>
+      <div class="hero-stat-row">
+        <div class="hero-stat-card">
+          <div class="hsc-val"><em>0%</em></div>
+          <div class="hsc-label">Buy Tax</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hsc-val"><em>0%</em></div>
+          <div class="hsc-label">Sell Tax</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hsc-val">1<em>B</em></div>
+          <div class="hsc-label">Total Supply</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hsc-val"><span class="green">Burned</span></div>
+          <div class="hsc-label">LP Status</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hsc-val"><em>SPL</em></div>
+          <div class="hsc-label">Standard</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ============================================================
-       TOKENOMICS SECTION
-  ============================================================ -->
-  <div class="container">
+  <!-- TICKER -->
+  <div class="ticker-outer">
+    <div class="ticker-track">
+      <span class="hi">$DICHI</span><span>1,000,000,000 TOTAL SUPPLY</span>
+      <span class="hi2">—</span><span>LP BURNED FOREVER</span>
+      <span class="hi">$DICHI</span><span>0% BUY TAX · 0% SELL TAX</span>
+      <span class="hi2">—</span><span>SOLANA SPL TOKEN</span>
+      <span class="hi">$DICHI</span><span>CONTRACT RENOUNCED</span>
+      <span class="hi2">—</span><span>MINT AUTHORITY REVOKED</span>
+      <span class="hi">$DICHI</span><span>1,000,000,000 TOTAL SUPPLY</span>
+      <span class="hi2">—</span><span>LP BURNED FOREVER</span>
+      <span class="hi">$DICHI</span><span>0% BUY TAX · 0% SELL TAX</span>
+      <span class="hi2">—</span><span>SOLANA SPL TOKEN</span>
+      <span class="hi">$DICHI</span><span>CONTRACT RENOUNCED</span>
+      <span class="hi2">—</span><span>MINT AUTHORITY REVOKED</span>
+    </div>
+  </div>
 
-    <section id="tokenomics">
-      <div class="section-label">// Supply Breakdown</div>
-      <div class="section-title">The <em>Numbers</em></div>
+  <div class="wrap">
 
-      <!-- Big supply card -->
-      <div class="supply-card">
-        <div>
-          <div class="supply-number"><em>1,000,000,000</em></div>
-          <div class="supply-sub">Total $DICHI Supply</div>
+    <!-- BIG SUPPLY CARD -->
+    <div class="supply-hero reveal">
+      <div>
+        <div class="supply-big-num"><em>1,000,000,000</em></div>
+        <div class="supply-big-sub">Total $DICHI Supply — Fixed Forever</div>
+      </div>
+      <div class="supply-badges">
+        <div class="sbadge">
+          <div class="sbadge-dot" style="background:var(--green)"></div>
+          <div>
+            <div class="sbadge-title">LP Burned</div>
+            <div class="sbadge-desc">Liquidity sent to dead wallet on day one. No rug. No exit. Permanent.</div>
+          </div>
         </div>
-        <div class="supply-badges">
-          <div class="supply-badge">
-            <div class="badge-dot" style="background:#14F195"></div>
-            <div class="badge-text">
-              LP Burned 🔥
-              <span>Liquidity locked forever — no rug possible</span>
-            </div>
+        <div class="sbadge">
+          <div class="sbadge-dot" style="background:var(--accent)"></div>
+          <div>
+            <div class="sbadge-title">0% Tax</div>
+            <div class="sbadge-desc">No buy tax, no sell tax. Trade freely with zero friction forever.</div>
           </div>
-          <div class="supply-badge">
-            <div class="badge-dot" style="background:#f5c842"></div>
-            <div class="badge-text">
-              0% Tax
-              <span>No buy tax, no sell tax. Ever.</span>
-            </div>
+        </div>
+        <div class="sbadge">
+          <div class="sbadge-dot" style="background:var(--purple)"></div>
+          <div>
+            <div class="sbadge-title">Contract Renounced</div>
+            <div class="sbadge-desc">Owner keys burned. Nobody can pause, alter, or exploit this contract.</div>
           </div>
-          <div class="supply-badge">
-            <div class="badge-dot" style="background:#9945FF"></div>
-            <div class="badge-text">
-              Renounced Contract
-              <span>No admin keys. Community owned.</span>
-            </div>
+        </div>
+        <div class="sbadge">
+          <div class="sbadge-dot" style="background:var(--accent2)"></div>
+          <div>
+            <div class="sbadge-title">No Mint Authority</div>
+            <div class="sbadge-desc">Mint revoked permanently. 1B tokens is all there will ever be.</div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Donut + legend -->
-      <div class="tokenomics-grid">
-        <div class="donut-wrap">
-          <!-- SVG Donut Chart -->
+    <div class="divider"></div>
+
+    <!-- DISTRIBUTION -->
+    <div>
+      <div class="reveal">
+        <div class="s-eyebrow">// Allocation Breakdown</div>
+        <div class="s-title">Supply <em>Distribution</em></div>
+        <p class="s-sub">Community-first tokenomics. The majority of supply goes directly to liquidity and holders.</p>
+      </div>
+
+      <div class="dist-grid">
+
+        <div class="donut-side reveal">
           <svg class="donut-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="70" fill="none" stroke="#1e1e1e" stroke-width="36"/>
-
-            <!-- Community & Liquidity: 50% -->
-            <circle cx="100" cy="100" r="70" fill="none"
-              stroke="#f5c842" stroke-width="36"
-              stroke-dasharray="219.9 219.9"
-              stroke-dashoffset="0"
-              transform="rotate(-90 100 100)"/>
-
-            <!-- CEX & Partnerships: 20% -->
-            <circle cx="100" cy="100" r="70" fill="none"
-              stroke="#14F195" stroke-width="36"
-              stroke-dasharray="87.96 351.84"
-              stroke-dashoffset="-219.9"
-              transform="rotate(-90 100 100)"/>
-
-            <!-- Team (Locked): 15% -->
-            <circle cx="100" cy="100" r="70" fill="none"
-              stroke="#9945FF" stroke-width="36"
-              stroke-dasharray="65.97 373.83"
-              stroke-dashoffset="-307.86"
-              transform="rotate(-90 100 100)"/>
-
-            <!-- Marketing: 10% -->
-            <circle cx="100" cy="100" r="70" fill="none"
-              stroke="#ff6b35" stroke-width="36"
-              stroke-dasharray="43.98 395.82"
-              stroke-dashoffset="-373.83"
-              transform="rotate(-90 100 100)"/>
-
-            <!-- Airdrop: 5% -->
-            <circle cx="100" cy="100" r="70" fill="none"
-              stroke="#ff6eb4" stroke-width="36"
-              stroke-dasharray="21.99 417.81"
-              stroke-dashoffset="-417.81"
-              transform="rotate(-90 100 100)"/>
-
-            <!-- Center label -->
-            <text x="100" y="95" text-anchor="middle"
-              font-family="'Bebas Neue', sans-serif"
-              font-size="22" fill="#f0f0f0" letter-spacing="1">$DICHI</text>
-            <text x="100" y="114" text-anchor="middle"
-              font-family="'DM Mono', monospace"
-              font-size="9" fill="#707070" letter-spacing="1">1B SUPPLY</text>
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#d4c9ae" stroke-width="36"/>
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#e8a000" stroke-width="36" stroke-dasharray="219.9 219.9"  stroke-dashoffset="0"      transform="rotate(-90 100 100)"/>
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#00a86b" stroke-width="36" stroke-dasharray="87.96 351.84"  stroke-dashoffset="-219.9"  transform="rotate(-90 100 100)"/>
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#7730d4" stroke-width="36" stroke-dasharray="65.97 373.83"  stroke-dashoffset="-307.86" transform="rotate(-90 100 100)"/>
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#d45000" stroke-width="36" stroke-dasharray="43.98 395.82"  stroke-dashoffset="-373.83" transform="rotate(-90 100 100)"/>
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#1a1408" stroke-width="36" stroke-dasharray="21.99 417.81"  stroke-dashoffset="-417.81" transform="rotate(-90 100 100)"/>
+            <text x="100" y="92"  text-anchor="middle" font-family="'Anton',sans-serif" font-size="22" fill="#1a1408" letter-spacing="2">$DICHI</text>
+            <text x="100" y="110" text-anchor="middle" font-family="'DM Mono',monospace" font-size="8"  fill="#8a7a5a" letter-spacing="1.5">1B SUPPLY</text>
           </svg>
 
-          <!-- Legend -->
           <div class="donut-legend">
             <div class="legend-row">
-              <div class="legend-left">
-                <div class="legend-dot" style="background:#f5c842"></div>
-                <div class="legend-name">Community &amp; Liquidity</div>
-              </div>
+              <div class="legend-left"><div class="legend-dot" style="background:#e8a000"></div><div><div class="legend-name">Community &amp; Liquidity</div><div class="legend-sub">500,000,000 $DICHI</div></div></div>
               <div class="legend-pct">50%</div>
             </div>
             <div class="legend-row">
-              <div class="legend-left">
-                <div class="legend-dot" style="background:#14F195"></div>
-                <div class="legend-name">CEX &amp; Partnerships</div>
-              </div>
+              <div class="legend-left"><div class="legend-dot" style="background:#00a86b"></div><div><div class="legend-name">CEX &amp; Partnerships</div><div class="legend-sub">200,000,000 $DICHI</div></div></div>
               <div class="legend-pct">20%</div>
             </div>
             <div class="legend-row">
-              <div class="legend-left">
-                <div class="legend-dot" style="background:#9945FF"></div>
-                <div class="legend-name">Team (Locked 12mo)</div>
-              </div>
+              <div class="legend-left"><div class="legend-dot" style="background:#7730d4"></div><div><div class="legend-name">Team (Locked 12mo)</div><div class="legend-sub">150,000,000 $DICHI</div></div></div>
               <div class="legend-pct">15%</div>
             </div>
             <div class="legend-row">
-              <div class="legend-left">
-                <div class="legend-dot" style="background:#ff6b35"></div>
-                <div class="legend-name">Marketing</div>
-              </div>
+              <div class="legend-left"><div class="legend-dot" style="background:#d45000"></div><div><div class="legend-name">Marketing</div><div class="legend-sub">100,000,000 $DICHI</div></div></div>
               <div class="legend-pct">10%</div>
             </div>
             <div class="legend-row">
-              <div class="legend-left">
-                <div class="legend-dot" style="background:#ff6eb4"></div>
-                <div class="legend-name">Airdrop</div>
-              </div>
+              <div class="legend-left"><div class="legend-dot" style="background:#1a1408"></div><div><div class="legend-name">Airdrop</div><div class="legend-sub">50,000,000 $DICHI</div></div></div>
               <div class="legend-pct">5%</div>
             </div>
           </div>
         </div>
 
-        <!-- Info cards -->
-        <div style="display:flex; flex-direction:column; gap:16px;">
-          <div class="info-cards">
-            <div class="info-card">
-              <div class="info-card-icon">🔥</div>
-              <div class="info-card-title">LP Status</div>
-              <div class="info-card-val"><em>Burned</em></div>
-              <div class="info-card-desc">All LP tokens sent to a dead wallet. Liquidity is permanent.</div>
+        <div class="dist-cards reveal d2">
+          <div class="dist-card">
+            <div class="dist-card-top">
+              <div><div class="dist-card-title">Community &amp; Liquidity</div><div class="dist-card-tokens">500,000,000 $DICHI</div></div>
+              <div class="dist-card-pct" style="color:var(--accent)">50%</div>
             </div>
-            <div class="info-card">
-              <div class="info-card-icon">🧾</div>
-              <div class="info-card-title">Buy / Sell Tax</div>
-              <div class="info-card-val"><em>0 / 0</em></div>
-              <div class="info-card-desc">Zero tax on every transaction. Buy and sell freely.</div>
+            <div class="dist-card-bar-wrap"><div class="dist-card-bar" style="width:50%;background:var(--accent)"></div></div>
+            <div class="dist-card-note">LP burned. Trading pool permanent. Community airdrop included.</div>
+          </div>
+          <div class="dist-card">
+            <div class="dist-card-top">
+              <div><div class="dist-card-title">CEX &amp; Partnerships</div><div class="dist-card-tokens">200,000,000 $DICHI</div></div>
+              <div class="dist-card-pct" style="color:var(--green)">20%</div>
             </div>
-            <div class="info-card">
-              <div class="info-card-icon">🔐</div>
-              <div class="info-card-title">Contract</div>
-              <div class="info-card-val"><em>Renounced</em></div>
-              <div class="info-card-desc">Owner keys burned. No one can change the contract.</div>
+            <div class="dist-card-bar-wrap"><div class="dist-card-bar" style="width:20%;background:var(--green)"></div></div>
+            <div class="dist-card-note">Reserved for centralised exchange listings and strategic partnerships.</div>
+          </div>
+          <div class="dist-card">
+            <div class="dist-card-top">
+              <div><div class="dist-card-title">Team (12-Month Lock)</div><div class="dist-card-tokens">150,000,000 $DICHI</div></div>
+              <div class="dist-card-pct" style="color:var(--purple)">15%</div>
             </div>
-            <div class="info-card">
-              <div class="info-card-icon">⬡</div>
-              <div class="info-card-title">Network</div>
-              <div class="info-card-val">Solana</div>
-              <div class="info-card-desc">Blazing fast, near-zero fees. Built for degens.</div>
+            <div class="dist-card-bar-wrap"><div class="dist-card-bar" style="width:15%;background:var(--purple)"></div></div>
+            <div class="dist-card-note">Locked in multi-sig for 12 months. We are building for the long run.</div>
+          </div>
+          <div class="dist-card">
+            <div class="dist-card-top">
+              <div><div class="dist-card-title">Marketing</div><div class="dist-card-tokens">100,000,000 $DICHI</div></div>
+              <div class="dist-card-pct" style="color:var(--accent2)">10%</div>
             </div>
-            <div class="info-card">
-              <div class="info-card-icon">🐶</div>
-              <div class="info-card-title">Ticker</div>
-              <div class="info-card-val"><em>$DICHI</em></div>
-              <div class="info-card-desc">The good boy of Solana. Community first, always.</div>
+            <div class="dist-card-bar-wrap"><div class="dist-card-bar" style="width:10%;background:var(--accent2)"></div></div>
+            <div class="dist-card-note">Community-governed. KOL campaigns, influencer outreach, organic growth.</div>
+          </div>
+          <div class="dist-card">
+            <div class="dist-card-top">
+              <div><div class="dist-card-title">Airdrop</div><div class="dist-card-tokens">50,000,000 $DICHI</div></div>
+              <div class="dist-card-pct" style="color:var(--text)">5%</div>
             </div>
-            <div class="info-card">
-              <div class="info-card-icon">💎</div>
-              <div class="info-card-title">Decimals</div>
-              <div class="info-card-val">6</div>
-              <div class="info-card-desc">Standard Solana SPL token decimals.</div>
+            <div class="dist-card-bar-wrap"><div class="dist-card-bar" style="width:5%;background:var(--text)"></div></div>
+            <div class="dist-card-note">For early supporters and community contributors. First holders rewarded.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- TOKEN METRICS -->
+    <section class="metrics-section">
+      <div class="reveal">
+        <div class="s-eyebrow">// Token Details</div>
+        <div class="s-title">Token <em>Metrics</em></div>
+        <p class="s-sub">Everything you need to know about $DICHI at a glance.</p>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card metric-card-wide reveal">
+          <div class="metric-wide-inner">
+            <div class="mwc-col">
+              <div class="mwc-label">Buy / Sell Tax</div>
+              <div class="mwc-val"><em>0% / 0%</em></div>
+              <div class="mwc-sub">Zero tax on every transaction. No skim, no friction. Always.</div>
+            </div>
+            <div class="mwc-col">
+              <div class="mwc-label">Total Supply</div>
+              <div class="mwc-val">1<em>B</em></div>
+              <div class="mwc-sub">Fixed at 1,000,000,000 forever. Mint revoked. Unalterable.</div>
+            </div>
+            <div class="mwc-col">
+              <div class="mwc-label">LP Status</div>
+              <div class="mwc-val"><span class="green">Burned</span></div>
+              <div class="mwc-sub">100% of LP tokens sent to dead wallet. Liquidity is permanent.</div>
             </div>
           </div>
+        </div>
+
+        <div class="metric-card reveal d1">
+          <div class="metric-label">Blockchain</div>
+          <div class="metric-val">Solana</div>
+          <div class="metric-desc">Fastest L1 in crypto. 65,000 TPS, $0.00025 per transaction.</div>
+        </div>
+        <div class="metric-card reveal d2">
+          <div class="metric-label">Token Standard</div>
+          <div class="metric-val"><em>SPL</em></div>
+          <div class="metric-desc">Solana Program Library token. Same standard used by all major Solana projects.</div>
+        </div>
+        <div class="metric-card reveal d3">
+          <div class="metric-label">Decimals</div>
+          <div class="metric-val">6</div>
+          <div class="metric-desc">Standard 6 decimal places. Compatible with all Solana wallets and DEXs.</div>
+        </div>
+        <div class="metric-card reveal d1">
+          <div class="metric-label">Contract</div>
+          <div class="metric-val"><em>Renounced</em></div>
+          <div class="metric-desc">Owner keys burned. No admin can pause trading or alter behaviour.</div>
+        </div>
+        <div class="metric-card reveal d2">
+          <div class="metric-label">Mint Authority</div>
+          <div class="metric-val"><em>Revoked</em></div>
+          <div class="metric-desc">Permanently disabled. New tokens cannot be minted under any circumstance.</div>
+        </div>
+        <div class="metric-card reveal d3">
+          <div class="metric-label">Ticker</div>
+          <div class="metric-val"><em>$DICHI</em></div>
+          <div class="metric-desc">The good boy of Solana. One symbol. One community. One dog.</div>
         </div>
       </div>
     </section>
 
-    <!-- ============================================================
-         HOW TO BUY
-    ============================================================ -->
-    <section id="how-to-buy">
-      <div class="section-label">// Step by Step</div>
-      <div class="section-title">How to <em>Buy</em> $DICHI</div>
+    <div class="divider"></div>
+
+    <!-- SECURITY -->
+    <section class="security-section">
+      <div class="reveal">
+        <div class="s-eyebrow">// Trustless by Design</div>
+        <div class="s-title">Security &amp; <em>Transparency</em></div>
+        <p class="s-sub">Every protection enabled from day one. No admin keys. No back doors. No surprises.</p>
+      </div>
+
+      <div class="security-grid">
+        <div class="sec-card reveal d1">
+          <div class="sec-tag tag-green"><div class="tag-dot"></div> VERIFIED BURNED</div>
+          <div class="sec-card-title">Liquidity Permanently Burned</div>
+          <div class="sec-card-desc">All LP tokens sent to a dead wallet immediately after launch. Liquidity can never be withdrawn — making a rug-pull physically impossible. The pool is yours forever.</div>
+        </div>
+        <div class="sec-card reveal d2">
+          <div class="sec-tag tag-yellow"><div class="tag-dot"></div> OWNERSHIP RENOUNCED</div>
+          <div class="sec-card-title">Ownership Renounced</div>
+          <div class="sec-card-desc">The contract owner address has been set to null. No entity — including the founding team — can pause trading, modify fees, add blacklists, or change any contract parameter.</div>
+        </div>
+        <div class="sec-card reveal d1">
+          <div class="sec-tag tag-purple"><div class="tag-dot"></div> MINT REVOKED</div>
+          <div class="sec-card-title">Mint Authority Revoked</div>
+          <div class="sec-card-desc">The ability to create new tokens has been permanently disabled on-chain. The maximum supply of 1,000,000,000 $DICHI is final and enforced by the Solana blockchain itself.</div>
+        </div>
+        <div class="sec-card reveal d2">
+          <div class="sec-tag tag-orange"><div class="tag-dot"></div> 0% TAX CONFIRMED</div>
+          <div class="sec-card-title">Zero Tax Architecture</div>
+          <div class="sec-card-desc">No buy tax, no sell tax, no transfer tax. The contract contains no fee-on-transfer logic. Every token you buy is every token you receive. No hidden extraction.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- HOW TO BUY -->
+    <section class="htb-section" id="how-to-buy">
+      <div class="reveal">
+        <div class="s-eyebrow">// Step by Step</div>
+        <div class="s-title">How to Buy <em>$DICHI</em></div>
+        <p class="s-sub">From zero to holder in four simple steps.</p>
+      </div>
 
       <div class="htb-steps">
-
-        <!-- Step 1 -->
-        <div class="step-card">
-          <div class="step-num">01</div>
-          <div class="step-title">Get a Solana Wallet</div>
-          <div class="step-desc">Download Phantom or Solflare. Create a new wallet and save your seed phrase somewhere safe — never share it with anyone.</div>
-          <a href="https://phantom.app" target="_blank" rel="noopener" class="step-link">
-            Phantom.app ↗
-          </a>
+        <div class="htb-card reveal d1">
+          <div class="htb-step-num">01</div>
+          <div class="htb-title">Get a Solana Wallet</div>
+          <div class="htb-desc">Download Phantom or Solflare. Create your wallet and save your seed phrase safely. Never share it with anyone.</div>
+          <a href="https://phantom.app" target="_blank" rel="noopener" class="htb-link">Phantom.app →</a>
         </div>
-
-        <!-- Step 2 -->
-        <div class="step-card">
-          <div class="step-num">02</div>
-          <div class="step-title">Buy SOL</div>
-          <div class="step-desc">Purchase SOL from any major exchange like Coinbase, Binance, or Kraken. Transfer it to your Phantom wallet address.</div>
-          <a href="https://coinbase.com" target="_blank" rel="noopener" class="step-link">
-            Coinbase ↗
-          </a>
+        <div class="htb-card reveal d2">
+          <div class="htb-step-num">02</div>
+          <div class="htb-title">Buy SOL</div>
+          <div class="htb-desc">Purchase SOL on Coinbase, Binance, or Kraken. Transfer it directly to your Phantom wallet address.</div>
+          <a href="https://coinbase.com" target="_blank" rel="noopener" class="htb-link">Coinbase →</a>
         </div>
-
-        <!-- Step 3 -->
-        <div class="step-card">
-          <div class="step-num">03</div>
-          <div class="step-title">Go to Raydium or Jupiter</div>
-          <div class="step-desc">Visit Jupiter or Raydium — the top Solana DEXs. Connect your Phantom wallet by clicking "Connect Wallet."</div>
-          <a href="https://jup.ag" target="_blank" rel="noopener" class="step-link">
-            Jupiter ↗
-          </a>
+        <div class="htb-card reveal d3">
+          <div class="htb-step-num">03</div>
+          <div class="htb-title">Go to Jupiter</div>
+          <div class="htb-desc">Visit jup.ag and connect your Phantom wallet. Jupiter is Solana's leading DEX aggregator.</div>
+          <a href="https://jup.ag" target="_blank" rel="noopener" class="htb-link">jup.ag →</a>
         </div>
-
-        <!-- Step 4 -->
-        <div class="step-card">
-          <div class="step-num">04</div>
-          <div class="step-title">Swap SOL for $DICHI</div>
-          <div class="step-desc">Paste the $DICHI contract address, set slippage to 1–3%, and hit Swap. Welcome to the pack. 🐶</div>
-          <a href="#ca" class="step-link">
-            Copy CA ↗
-          </a>
+        <div class="htb-card reveal d4">
+          <div class="htb-step-num">04</div>
+          <div class="htb-title">Swap for $DICHI</div>
+          <div class="htb-desc">Paste the $DICHI contract address, set slippage to 1–3%, and hit swap. Welcome to the pack.</div>
+          <a href="#ca" class="htb-link">Copy CA →</a>
         </div>
-
       </div>
 
-      <!-- Contract Address -->
-      <div id="ca" class="ca-box">
+      <div id="ca" class="ca-box reveal">
         <div>
-          <div class="ca-label">Contract Address (CA)</div>
-          <!-- Replace this with the real CA when ready -->
-          <div class="ca-addr" id="caText">
-            <em>COMING SOON</em> — Paste your contract address here
-          </div>
+          <div class="ca-lbl">Contract Address (CA)</div>
+          <div class="ca-addr" id="caText"><em>COMING SOON</em> </div>
         </div>
-        <button class="btn-copy" id="copyBtn" onclick="copyCA()">
-          📋 Copy CA
-        </button>
+        <button class="btn-copy" id="copyBtn" onclick="copyCA()">Copy CA</button>
       </div>
 
-      <!-- Buy buttons -->
-      <div class="buy-row">
-        <a href="https://jup.ag" target="_blank" rel="noopener" class="btn btn-primary">
-          🚀 Buy on Jupiter
-        </a>
-        <a href="https://raydium.io/swap" target="_blank" rel="noopener" class="btn btn-outline">
-          ⚡ Buy on Raydium
-        </a>
-        <a href="https://dexscreener.com" target="_blank" rel="noopener" class="btn btn-outline">
-          📈 Chart on Dexscreener
-        </a>
+      <div class="buy-row reveal">
+        <a href="https://jup.ag" target="_blank" rel="noopener" class="btn-buy bb-primary">Buy on Jupiter</a>
+        <a href="https://raydium.io/swap" target="_blank" rel="noopener" class="btn-buy bb-outline">Buy on Raydium</a>
+        <a href="https://dexscreener.com" target="_blank" rel="noopener" class="btn-buy bb-outline">Chart on Dexscreener</a>
       </div>
-
     </section>
 
-  </div><!-- /container -->
+    <!-- DISCLAIMER -->
+    <div class="disclaimer reveal">
+      <p>$DICHI is a meme coin with no intrinsic value or financial return expectation. Not an investment. Carries significant risk. Always do your own research. Not financial advice. Never invest more than you can afford to lose.</p>
+    </div>
 
-  <!-- ============================================================
-       DISCLAIMER
-  ============================================================ -->
-  <div class="disclaimer">
-    <p>
-      $DICHI is a meme coin with no intrinsic value or financial return expectation.
-      It is not an investment and carries significant risk. Always do your own research.
-      This is not financial advice. Crypto is volatile — never invest more than you can afford to lose.
-    </p>
   </div>
 
-  <!-- ============================================================
-       FOOTER
-  ============================================================ -->
+  <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">DICHI</div>
-    <ul class="footer-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="tokenomics.html">Tokenomics</a></li>
-      <li><a href="whitepaper.html">Whitepaper</a></li>
-      <li><a href="roadmap.html">Roadmap</a></li>
-    </ul>
-    <div class="footer-copy">© 2025 DICHI · Built on Solana</div>
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo"><div class="nav-blink"></div> DICHI</div>
+        <p class="footer-tag">The good boy of Solana. Zero tax, LP burned, contract renounced. Community first. Always.</p>
+        <div class="footer-socials">
+          <a href="#" class="fsb">X</a>
+          <a href="#" class="fsb">TG</a>
+          <a href="https://dexscreener.com" target="_blank" rel="noopener" class="fsb">DEX</a>
+          <a href="https://jup.ag" target="_blank" rel="noopener" class="fsb">BUY</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigate</div>
+        <div class="footer-col-links">
+          <a href="index.html">Home</a>
+          <a href="tokenomics.html">Tokenomics</a>
+          <a href="whitepaper.html">Whitepaper</a>
+          <a href="roadmap.html">Roadmap</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Buy $DICHI</div>
+        <div class="footer-col-links">
+          <a href="https://jup.ag" target="_blank" rel="noopener">Jupiter</a>
+          <a href="https://raydium.io/swap" target="_blank" rel="noopener">Raydium</a>
+          <a href="https://dexscreener.com" target="_blank" rel="noopener">Dexscreener</a>
+          <a href="#how-to-buy">How to Buy</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Learn</div>
+        <div class="footer-col-links">
+          <a href="whitepaper.html">Whitepaper</a>
+          <a href="whitepaper.html#risks">Risk Factors</a>
+          <a href="roadmap.html">Roadmap</a>
+          <a href="index.html#generator">PFP Generator</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 DICHI · Built on Solana · All rights reserved</div>
+      <div class="footer-disc">$DICHI is a meme token with no intrinsic value. Not financial advice. Never invest more than you can afford to lose.</div>
+    </div>
   </footer>
 
-
-  <!-- ============================================================
-       JAVASCRIPT
-  ============================================================ -->
   <script>
-    // Copy contract address
+    window.addEventListener('scroll', () => {
+      document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, {threshold: 0.1});
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+    const barObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.dist-card-bar').forEach(bar => {
+            const w = bar.style.width; bar.style.width = '0%';
+            setTimeout(() => { bar.style.width = w; }, 100);
+          });
+          barObserver.unobserve(e.target);
+        }
+      });
+    }, {threshold: 0.3});
+    document.querySelectorAll('.dist-cards').forEach(el => barObserver.observe(el));
+
     function copyCA() {
-      // Replace this string with your real CA when ready
       const ca = 'COMING SOON — replace with your contract address';
       navigator.clipboard.writeText(ca).then(() => {
         const btn = document.getElementById('copyBtn');
-        btn.textContent = '✓ Copied!';
-        btn.classList.add('copied');
-        setTimeout(() => {
-          btn.textContent = '📋 Copy CA';
-          btn.classList.remove('copied');
-        }, 2000);
+        btn.textContent = 'Copied!'; btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy CA'; btn.classList.remove('copied'); }, 2000);
       });
     }
   </script>
