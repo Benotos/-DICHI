@@ -1455,7 +1455,7 @@
         <div>
           <div class="ca-lbl">Contract Address (CA)</div>
           <div class="ca-addr" id="caText">
-            <em>COMING SOON</em> 
+            <em>COMING_SOON_PUMP</em> 
           </div>
         </div>
         <button class="btn-copy" id="copyBtn" onclick="copyCA()">Copy CA</button>
@@ -1463,8 +1463,8 @@
 
       <div class="buy-row reveal">
         <a href="https://jup.ag" target="_blank" rel="noopener" class="btn-buy bb-primary">Buy on Jupiter</a>
-        <a href="https://pump.fun" target="_blank" rel="noopener" class="btn-buy bb-outline">Buy on Pumpfun</a>
-        <a href="https://dexscreener.com" target="_blank" rel="noopener" class="btn-buy bb-outline">Chart on Dexscreener</a>
+        <a href="https://pump.fun/coin/" target="_blank" rel="noopener" class="btn-buy bb-outline">Buy on Pumpfun</a>
+        <a href="https://dexscreener.com/solana/" target="_blank" rel="noopener" class="btn-buy bb-outline">Chart on Dexscreener</a>
       </div>
     </section>
 
@@ -1521,18 +1521,18 @@
         <a href="#" class="social-card reveal d1">
           <div class="social-platform">Social</div>
           <div class="social-name">Twitter / X</div>
-          <div class="social-handle">@DichionSolana</div>
+          <div class="social-handle">#</div>
           <div class="social-desc">Latest news, memes, and community updates. The main hub for all things DICHI.</div>
           <div class="social-arrow">↗</div>
         </a>
         <a href="#" class="social-card reveal d2">
           <div class="social-platform">Chat</div>
           <div class="social-name">Telegram</div>
-          <div class="social-handle">t.me/DichionSolana</div>
+          <div class="social-handle">#</div>
           <div class="social-desc">Real-time chat, alpha drops, price talk, and pure good boy energy.</div>
           <div class="social-arrow">↗</div>
         </a>
-        <a href="https://dexscreener.com" target="_blank" rel="noopener" class="social-card reveal d3">
+        <a href="https://dexscreener.com/solana/" target="_blank" rel="noopener" class="social-card reveal d3">
           <div class="social-platform">Chart</div>
           <div class="social-name">Dexscreener</div>
           <div class="social-handle">Live Chart</div>
@@ -1554,7 +1554,7 @@
           <p class="cta-body">Buy $DICHI, build your PFP, and become part of the most loyal community on Solana. The good boy waits for no one.</p>
         </div>
         <div class="cta-btns">
-          <a href="tokenomics.html#how-to-buy" class="cta-btn-p">Buy $DICHI</a>
+          <a href="https://pump.fun/coin/" class="cta-btn-p">Buy $DICHI</a>
           <a href="#generator" class="cta-btn-g">Make Your PFP</a>
         </div>
       </div>
@@ -1570,8 +1570,8 @@
         <div class="footer-socials">
           <a href="#" class="fsb">X</a>
           <a href="#" class="fsb">TG</a>
-          <a href="https://dexscreener.com" target="_blank" rel="noopener" class="fsb">DEX</a>
-          <a href="https://jup.ag" target="_blank" rel="noopener" class="fsb">BUY</a>
+          <a href="https://dexscreener.com/solana/" target="_blank" rel="noopener" class="fsb">DEX</a>
+          <a href="https://pump.fun/coin/" target="_blank" rel="noopener" class="fsb">BUY</a>
         </div>
       </div>
       <div>
@@ -1587,8 +1587,8 @@
         <div class="footer-col-title">Buy $DICHI</div>
         <div class="footer-col-links">
           <a href="https://jup.ag" target="_blank" rel="noopener">Jupiter</a>
-          <a href="https://Pumpfun.io/swap" target="_blank" rel="noopener">Pumpfun</a>
-          <a href="https://dexscreener.com" target="_blank" rel="noopener">Dexscreener</a>
+          <a href="https://Pumpfun.io/coin/" target="_blank" rel="noopener">Pumpfun</a>
+          <a href="https://dexscreener.com/solana/" target="_blank" rel="noopener">Dexscreener</a>
           <a href="tokenomics.html#how-to-buy">How to Buy</a>
         </div>
       </div>
@@ -1631,7 +1631,7 @@
 
     /* COPY CA */
     function copyCA() {
-      const ca = 'COMING SOON — replace with your contract address';
+      const ca = 'COMING SOON PUMP';
       navigator.clipboard.writeText(ca).then(() => {
         const btn = document.getElementById('copyBtn');
         btn.textContent = 'Copied!'; btn.classList.add('copied');
